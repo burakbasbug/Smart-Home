@@ -81,7 +81,6 @@ main h2 {
 
 .login_input {
     width: 40%;
-
     height: 30px;
     border-radius: 5px;
 }
@@ -102,4 +101,24 @@ main h2 {
     background: -o-linear-gradient(top, rgba(82, 52, 247, 1) 0%, rgba(50, 64, 117, 1) 100%);
     background: -ms-linear-gradient(top, rgba(82, 52, 247, 1) 0%, rgba(50, 64, 117, 1) 100%);
     background: linear-gradient(to bottom, rgba(82, 52, 247, 1) 0%, rgba(50, 64, 117, 1) 100%);
+}
+
+@media screen and (max-width: 399px) {
+  .login_input {
+    width: 90%;
+    height: 30px;
+    left: 5%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .login_label {
+    height: auto;
+}
+  
+  #anmeldeButton {
+    width: 90%;
+    left: 5%;
+    margin-left: 0;
+  }
 }
