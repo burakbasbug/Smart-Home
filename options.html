@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="author" content="gruppe 13"/>
-        <title lang="de">Aufgabe1</title>
-    </head>
-    <body>
-        <h1>First order header</h1>
-        <p>Paragraph content</p>
-    </body>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="author" content="gruppe 13" />
+  <title lang="de">Aufgabe1</title>
+  <link rel="stylesheet" type="text/css" href="styles/login_styles.css">
+</head>
+
+<body>
+  <header> <img src="images/big-logo-small.png" alt="logo" />
+    <h1>BIG Smart Home</h1> </header>
+  <main id="login_main">
+    <h2>Anmelden</h2>
+    <form action="#" method="post">
+      <label class="login_label" for="oldpwd">Altes Password</label>
+      <input class="login_input" id="oldpwd" name="oldpwd" type="password" placeholder="Alter Password" required />
+      <br/>
+      <label class="login_label" for="newpwd">Neues Password</label>
+      <input class="login_input" id="newpwd" name="newpwd" type="password" placeholder="Neues Password" 
+             required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}" />
+      <br/>
+      <label class="login_label" for="newpwd2">Neues Password</label>
+      <input class="login_input" id="newpwd2" name="newpwd2" type="password" placeholder="Neues Password wiederholen" 
+             required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}" />
+      <p>
+        <input type="submit" id="anmeldeButton" value="Änderung Speichern" name="action" />
+      </p>
+    </form>
+  </main>
+  <footer> &copy; 2017 BIG Smart Home</footer>
+</body>
+
 </html>
