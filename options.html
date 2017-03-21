@@ -10,12 +10,13 @@
 
 <body>
   <header> <img src="images/big-logo-small.png" alt="logo" />
-    <h1>BIG Smart Home</h1> </header>
+    <h1>BIG Smart Home<input type="button" id="abmeldeButton" value="Abmelden" name="action" /></h1>
+  </header>
   <main id="login_main">
-    <h2>Anmelden</h2>
+    <h2>Passwort ändern</h2>
     <form action="#" method="post">
       <label class="login_label" for="oldpwd">Altes Password</label>
-      <input class="login_input" id="oldpwd" name="oldpwd" type="password" placeholder="Alter Password" required />
+      <input class="login_input" id="oldpwd" name="oldpwd" type="password" placeholder="Altes Password" required />
       <br/>
       <label class="login_label" for="newpwd">Neues Password</label>
       <input class="login_input" id="newpwd" name="newpwd" type="password" placeholder="Neues Password" 
@@ -25,7 +26,7 @@
       <input class="login_input" id="newpwd2" name="newpwd2" type="password" placeholder="Neues Password wiederholen" 
              required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,12}" />
       <p>
-        <input type="submit" id="anmeldeButton" value="Änderung Speichern" name="action" />
+        <input type="submit" id="anmeldeButton" value="Änderung speichern" name="action" />
       </p>
     </form>
   </main>
