@@ -11,9 +11,13 @@
 <header>
     <img src="images/big-logo-small.png" alt="logo"/>
     <h1>BIG Smart Home
-        <input type="button" id="hoverMenu" value="drw" name="action"/>
-        <a href="login.html"><input type="button" id="abmeldeButton" value="Abmelden" name="action"/></a>
-        <a href="options.html"><input type="button" id="optionsButton" value="Options" name="action"/></a>
+        <input type="checkbox" id="hoverMenuTrigger" class="hoverMenuTrigger"/>
+        <label for="hoverMenuTrigger" class="button"></label>
+        <!--<input type="button" id="hoverMenu" value="drw" name="action"/>-->
+        <span id="buttons">
+            <a href="login.html"><input type="button" id="abmeldeButton" value="Abmelden" name="action"/></a>
+            <a href="options.html"><input type="button" id="optionsButton" value="Options" name="action"/></a>
+        </span>
     </h1>
 </header>
 <div class="container">
@@ -121,10 +125,14 @@
     <section id="sidebar">
         <aside>
             <h2>Serverstatus:</h2>
-            <h4>Benutzer</h4><p>Administrator</p>
-            <h4>Systemstartzeit</h4><p>10:00</p>
-            <h4>Systemstartdatum</h4><p>06.03.2017</p>
-            <h4>Fehlgeschlagene Logins</h4><p>3</p>
+            <h4>Benutzer</h4>
+            <p>Administrator</p>
+            <h4>Systemstartzeit</h4>
+            <p>10:00</p>
+            <h4>Systemstartdatum</h4>
+            <p>06.03.2017</p>
+            <h4>Fehlgeschlagene Logins</h4>
+            <p>3</p>
         </aside>
     </section>
 </div>
