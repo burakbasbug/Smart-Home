@@ -28,7 +28,6 @@ header {
     padding-left: 15px;
     padding-right: 15px;
     box-shadow: 0px 2px 20px #888888;
-
     background: #ffa500; /* Old browsers */
     background: -moz-linear-gradient(top, #ffa500 0%, #ff0000 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(top, #ffa500 0%, #ff0000 100%); /* Chrome10-25,Safari5.1-6 */
@@ -36,6 +35,11 @@ header {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa500', endColorstr='#ff0000', GradientType=0); /* IE6-9 */
 }
 
+a {
+    text-decoration: none;
+}
+
+/*header*/
 header img {
     float: left;
     padding: 15px;
@@ -73,7 +77,7 @@ input{
     border-radius: 5px;
 }
 
-.button, input[type=button], input[type=submit] {
+.button{
     color: white;
     background: blue;
     border: 0px;
@@ -88,10 +92,14 @@ input{
 }
 
 #anmeldeButton {
-    width: 50%;
+    width: 45%;
     height: 40px;
     font-size: 15px;
     margin-left: 25%;
+}
+
+input[button],a>input{
+    cursor: pointer;
 }
 
 @media screen and (max-width: 399px) {
@@ -117,50 +125,62 @@ input{
 
 /* Abmelde- und Optionbutton normal anzeigen */
 @media screen and (min-width: 600px) {
-    #abmeldeButton, #optionsButton {
+    .header-btn{
         height: 40px;
         font-size: 15px;
     }
-
-    #optionsButton {
-        margin-right: 2px;
-        float: right;
-    }
-
-    #abmeldeButton {
-        float: right;
-    }
-
-    #hoverMenuTrigger {
+    
+    nav>a {
         display: none;
     }
 }
 
-/* Abmelde- und Optionbutton in Drawer verstecken */
+/* - und Optionbutton in Drawer verstecken */
 @media screen and (max-width: 599px) {
-    #buttons {
+    nav ul {
         display: none;
     }
-    #hoverMenuTrigger {
-        position: absolute;
-        clip: rect(0, 0, 0, 0);
+    
+    nav ul input{
+        margin: 5px;
+        padding: 10px 5px;
+        width: 7em;
     }
-    label[for="hoverMenuTrigger"] {
-        float: right;
-        margin-right: 2px;
-        z-index: 2;
-        height: 30px;
-        width: 30px;
-        background-color:blue;
-        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve' stroke='white' fill='white' ><rect width='26' x='2' height='5'/><rect x='2' y='22' width='26' height='5'/><rect x='2' y='12' width='26' height='5'/></svg>");
+    
+    nav>a>input {
+        height: 40px;
+        font-size: 15px;
+        float:right;
+        display: block;
+        margin: 15px;
+        width: 3em;
     }
-    #hoverMenuTrigger:checked + label {
-        left: 215px;
-    }
+    
+    nav:hover * {
+		display: block;
+	}
+}
 
-    #hoverMenuTrigger:checked ~ #buttons {
-        display:flex;
-    }
+header>* {
+    display: inline-block;
+}
+
+nav {
+    position: absolute;
+    right: 0.5%;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav li a {
+    display: block;
+    margin-left: 5px;
 }
 
 footer {
