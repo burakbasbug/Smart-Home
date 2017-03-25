@@ -23,7 +23,8 @@
 .gereateImage{
     width:50%;
     height:auto;
-
+    height: 80%;
+    margin-top: 10%;
 }
 .geraeteContent{
     float:right;
