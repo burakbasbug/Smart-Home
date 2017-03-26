@@ -63,7 +63,7 @@ aside>div{
     border-radius:10px;
 }
 
-.geraet:hover,.geraet img:hover{
+.geraet:hover,.geraet a>img:hover{
     color: #7ad3ff;
     background-color: #7ad3ff;
 }
