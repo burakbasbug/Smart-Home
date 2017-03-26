@@ -18,8 +18,8 @@ div.container
 |    |...
 |--aside#sidebar
 |--|---div>h2
-|--|---div>h4+p
-|--|---div>h4+p
+|--|---div>h3+p
+|--|---div>h3+p
 |--|...
 */
 
@@ -103,7 +103,7 @@ aside>div{
     word-wrap: break-word
 }
 
-.geraeteContent h4 {
+.geraeteContent h3 {
     padding-left: 5px;
     text-decoration: none;
     word-wrap: break-word
