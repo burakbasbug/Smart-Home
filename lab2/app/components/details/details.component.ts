@@ -14,6 +14,7 @@ import {ControlType} from '../../model/controlType';
 })
 export class DetailsComponent implements OnInit{
     device: Device;
+    //@Input() value : Number;
 
     constructor(private bigDeviceService: DeviceService, private route: ActivatedRoute, private location: Location){}
 
@@ -22,5 +23,9 @@ export class DetailsComponent implements OnInit{
         .switchMap((params: Params) => this.bigDeviceService.getDevice(params['id']))
         .subscribe(suppliedDevice => this.device = suppliedDevice );
     }
+
+    /*setValue(): void {
+        console.log(this.value);
+    }*/
 
 }
