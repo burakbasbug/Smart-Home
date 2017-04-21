@@ -13,5 +13,6 @@ export class OptionsComponent{
     formSubmit(event: Event){
         event.preventDefault();
         this.router.navigate(['/options']);
+        console.log('Änderung Speichern clicked');
     }
 }

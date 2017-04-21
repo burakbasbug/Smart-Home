@@ -12,5 +12,6 @@ export class LoginComponent{
     submitForm(event: Event){
         event.preventDefault();
         this.router.navigate(['/overview']);
+        console.log('Anmelden clicked');
     }
 }

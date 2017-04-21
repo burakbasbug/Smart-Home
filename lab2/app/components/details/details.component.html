@@ -16,10 +16,10 @@
                 <li class="nav-items">
                     <ul>
                         <li>
-                            <a routerLink="options" class="button" accesskey="2">Optionen</a>
+                            <a routerLink="/options" class="button" accesskey="2">Optionen</a>
                         </li>
                         <li>
-                            <a routerLink="login" class="button" accesskey="1">Abmelden</a>
+                            <a routerLink="/login" class="button" accesskey="1">Abmelden</a>
                         </li>
                     </ul>
                 </li>
@@ -29,7 +29,7 @@
             </ul>
         </nav>
     </header>
-    <div class="main-container">
+    <div class="main-container" *ngIf="device">
 
         <aside class="sidebar" aria-labelledby="serverinfoheadline">
             <div class="server-info-container">
@@ -57,13 +57,13 @@
             </div>
         </aside>
         <main aria-labelledby="deviceheadline" class="details-container">
-            <div attr.data-device-id="19ff7d47-bd80-4a5d-adfb-bc77558facad" class="details-headline">
-                <h2 class="main-headline" id="deviceheadline">Heizkörper Badezimmer</h2>
+            <div attr.data-device-id={{device.id}} class="details-headline">
+                <h2 class="main-headline" id="deviceheadline">{{device.display_name}}</h2>
             </div>
             <div class="details-holder">
 
                 <!-- Steuerung für kontinuierliche Werte -->
-                <div class="details-outer">
+                <div class="details-outer" *ngIf=" device.control_units[0]['type']==2">
                     <div class="details-image-container">
                         <img class="details-image" src="../../images/placeholder_continuous.PNG">
                     </div>
@@ -72,14 +72,14 @@
                         <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6">6.3.2017 10:01:30: 20 -> 25
           </textarea>
                         <div class="details-settings">
-                            <h3 class="details-headline">Temperatur einstellen</h3>
+                            <h3 class="details-headline">{{ device.control_units[0]['name'] }}</h3>
 
                             <form class="update-form" method="post">
                                 <label class="update-form-field" id="current-value">
-                <span class="current-value">derzeit: 0</span>
+                <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
               </label>
                                 <label class="accessibility" for="new-value">Bitte gewünschten Wert eingeben.</label>
-                                <input type="number" step="0.01" min="0" max="50" id="new-value" value="1" class="update-form-field form-input" name="new-value" required>
+                                <input type="number" step="0.01" min="{{ device.control_units[0]['min'] }}" max="{{ device.control_units[0]['max'] }}" id="new-value" value="1" class="update-form-field form-input" name="new-value" required>
                                 <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen">
                             </form>
                         </div>
@@ -87,7 +87,7 @@
                 </div>
 
                 <!-- Steuerung für diskrete Werte -->
-                <div class="details-outer">
+                <div class="details-outer" *ngIf=" device.control_units[0]['type']==1">
                     <div class="details-image-container">
                         <img class="details-image" src="../../images/placeholder_enum.PNG">
                     </div>
@@ -103,9 +103,7 @@
               </label>
                                 <label class="accessibility" for="new-value">Bitte gewünschten Wert aus Menü auswählen.</label>
                                 <select id="new-value" class="update-form-field form-input" name="new-value" required>
-                <option>Aus</option>
-                <option>Ein</option>
-                <option selected>Standby</option>
+                <option *ngFor="let val of device.control_units[0]['values']; let i=index;"  [attr.selected]="device.control_units[0]['current'] == i ? true : null">{{val}}</option>
               </select>
                                 <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen">
                             </form>
@@ -114,7 +112,7 @@
                 </div>
 
                 <!-- Steuerung für boolesche Werte -->
-                <div class="details-outer">
+                <div class="details-outer" *ngIf="device.control_units[0]['type']==0">
                     <div class="details-image-container">
                         <img class="details-image" src="../../images/placeholder_boolean.PNG">
                     </div>
@@ -127,7 +125,7 @@
                             <form class="update-form" method="post">
 
                                 <label class="update-form-field" id="current-value">
-                <span class="current-value">derzeit: Aktiviert</span>
+                <span class="current-value">derzeit: {{ device.control_units[0]['current'] }}</span>
               </label>
 
                                 <label class="accessibility" for="new-value">Bitte gewünschten Wert auswählen.</label>
