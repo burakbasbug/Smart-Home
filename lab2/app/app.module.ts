@@ -7,10 +7,10 @@ import { AppComponent } from './components/app.component';
 import { RouterModule } from '@angular/router';
 import { DeviceService} from './services/device.service';
 
-import { DetailsComponent } from './components/details.component';
-import { LoginComponent } from './components/login.component';
-import { OverviewComponent } from './components/overview.component';
-import { OptionsComponent } from './components/options.component';
+import { DetailsComponent } from './components/details/details.component';
+import { LoginComponent } from './components/login/login.component';
+import { OverviewComponent } from './components/overview/overview.component';
+import { OptionsComponent } from './components/options/options.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
