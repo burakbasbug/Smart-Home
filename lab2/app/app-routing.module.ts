@@ -8,12 +8,13 @@ import { OptionsComponent } from './components/options/options.component';
 
 
 const BIG_ROUTES: Routes = [
-    {path: '',redirectTo: '/login',pathMatch: 'full'},
+    {path: '', redirectTo: 'login',pathMatch: 'full'},
     {path: 'login', component: LoginComponent},
     {path: 'details/:id', component: DetailsComponent},
     {path: 'overview', component: OverviewComponent},
     {path: 'options', component: OptionsComponent},
-    {path: 'details', component: DetailsComponent}
+    {path: 'details', component: DetailsComponent},
+    {path: '**', redirectTo: 'login',pathMatch: 'full'},
 ];
 
 @NgModule({

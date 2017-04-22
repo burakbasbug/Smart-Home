@@ -28,6 +28,7 @@
     </nav>
 </header>
 <div class="main-container" *ngIf="device">
+    <!-- if there is no device (=undefined) wont be loaded. -->
 
     <aside class="sidebar" aria-labelledby="serverinfoheadline">
         <div class="server-info-container">
@@ -54,87 +55,62 @@
             </dl>
         </div>
     </aside>
+
     <main aria-labelledby="deviceheadline" class="details-container">
         <div attr.data-device-id={{device.id}} class="details-headline">
             <h2 class="main-headline" id="deviceheadline">{{device.display_name}}</h2>
         </div>
         <div class="details-holder">
-
-            <!-- Steuerung für kontinuierliche Werte -->
-            <div class="details-outer" *ngIf=" device.control_units[0]['type']==2">
+            <div class="details-outer">
                 <div class="details-image-container">
-                    <img class="details-image" src="../../images/placeholder_continuous.PNG">
+                    <img *ngIf=" device.control_units[0]['type']==0" class="details-image" src="../../images/placeholder_boolean.PNG">
+                    <img *ngIf=" device.control_units[0]['type']==1" class="details-image" src="../../images/placeholder_enum.PNG">
+                    <img *ngIf=" device.control_units[0]['type']==2" class="details-image" src="../../images/placeholder_continuous.PNG">
                 </div>
                 <div class="details-data">
                     <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
-                    <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6">6.3.2017 10:01:30: 20 -> 25
-          </textarea>
-                    <div class="details-settings">
-                        <h3 class="details-headline">{{ device.control_units[0]['name'] }}</h3>
-
-                        <form class="update-form" method="post">
-                            <label class="update-form-field" id="current-value">
-                <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
-              </label>
-                            <label class="accessibility" for="new-value">Bitte gewünschten Wert eingeben.</label>
-                            <input type="number" step="0.01" min="{{ device.control_units[0]['min'] }}" max="{{ device.control_units[0]['max'] }}" id="new-value" value="1" class="update-form-field form-input" name="new-value" required>
-                            <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen">
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Steuerung für diskrete Werte -->
-            <div class="details-outer" *ngIf=" device.control_units[0]['type']==1">
-                <div class="details-image-container">
-                    <img class="details-image" src="../../images/placeholder_enum.PNG">
-                </div>
-                <div class="details-data">
-                    <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
-                    <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6">6.3.2017 10:02:32: Ein -> Standby</textarea>
-                    <div class="details-settings">
-                        <h3 class="details-headline">Gerätezustand einstellen</h3>
-
-                        <form class="update-form" method="post">
-                            <label class="update-form-field" id="current-value">
-                <span class="current-value">derzeit: Standby</span>
-              </label>
-                            <label class="accessibility" for="new-value">Bitte gewünschten Wert aus Menü auswählen.</label>
-                            <select id="new-value" class="update-form-field form-input" name="new-value" required>
-                <option *ngFor="let val of device.control_units[0]['values']; let i=index;"  [attr.selected]="device.control_units[0]['current'] == i ? true : null">{{val}}</option>
-              </select>
-                            <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen">
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Steuerung für boolesche Werte -->
-            <div class="details-outer" *ngIf="device.control_units[0]['type']==0">
-                <div class="details-image-container">
-                    <img class="details-image" src="../../images/placeholder_boolean.PNG">
-                </div>
-                <div class="details-data">
-                    <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
-                    <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6">6.3.2017 10:03:30: Aus -> An</textarea>
-                    <div class="details-settings">
+                    <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6" [innerHTML]="logText"></textarea>
+                    <!-- boolsche FERTIG -->
+                    <div class="details-settings" *ngIf="device.control_units[0]['type']==0">
                         <h3 class="details-headline">Ein-/Ausschalten</h3>
-
                         <form class="update-form" method="post">
-
                             <label class="update-form-field" id="current-value">
-                <span class="current-value">derzeit: {{ device.control_units[0]['current'] }}</span>
-              </label>
-
+                                <span class="current-value">derzeit: {{ device.control_units[0]['current']==1?"An":"Aus" }}</span>
+                            </label>
                             <label class="accessibility" for="new-value">Bitte gewünschten Wert auswählen.</label>
-                            <input type="checkbox" id="new-value" class="update-checkbox-input form-input" checked name="new-value">
-                            <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen">
+                            <input type="checkbox" id="new-value" class="update-checkbox-input form-input" [checked]="device.control_units[0]['current']" name="new-value" #controlbox>
+                            <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen" (click)=switchState(controlbox.checked)>
+                        </form>
+                    </div>
+                    <!-- diskrete -->
+                    <div class="details-settings" *ngIf="device.control_units[0]['type']==1">
+                        <h3 class="details-headline">Gerätezustand einstellen</h3>
+                        <form class="update-form" method="post">
+                            <label class="update-form-field" id="current-value">
+                                <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
+                            </label>
+                            <label class="accessibility" for="new-value">Bitte gewünschten Wert aus Menü auswählen.</label>
+                            <select id="new-value" class="update-form-field form-input" name="new-value" required #optionbox>
+                                <option *ngFor="let val of device.control_units[0]['values']; let i=index;"  [attr.selected]="device.control_units[0]['current'] == i ? true : null">{{val}}</option>
+                            </select>
+                            <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen" (click)=chooseState(optionbox.value)>
+                        </form>
+                    </div>
+                    <!-- kontiniuerliche -->
+                    <div class="details-settings" *ngIf="device.control_units[0]['type']==2">
+                        <h3 class="details-headline">Temperatur einstellen</h3>
+                        <form class="update-form" method="post">
+                            <label class="update-form-field" id="current-value">
+                                <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
+                            </label>
+                            <label class="accessibility" for="new-value">Bitte gewünschten Wert eingeben.</label>
+                            <input type="number" step="0.01" min="{{ device.control_units[0]['min'] }}" max="{{ device.control_units[0]['max'] }}" id="new-value" [value]="device.control_units[0]['current']" class="update-form-field form-input" name="new-value" required #inputbox>
+                            <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen" (click)=setState(inputbox.value)>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
 </div>
 <footer>
