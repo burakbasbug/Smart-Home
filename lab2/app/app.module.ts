@@ -12,6 +12,9 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { OptionsComponent } from './components/options/options.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import {DoughnutChartDemoComponent} from './components/details/doughnut-chart-demo.component';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -20,7 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule
   ],
   declarations: [
-    AppComponent,DetailsComponent,LoginComponent,OverviewComponent,OptionsComponent
+    AppComponent,DetailsComponent,LoginComponent,OverviewComponent,OptionsComponent,DoughnutChartDemoComponent
   ],
   providers: [ DeviceService ],
   bootstrap: [ AppComponent ]

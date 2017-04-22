@@ -63,29 +63,26 @@
         <div class="details-holder">
             <div class="details-outer">
                 <div class="details-image-container">
-                    <img *ngIf=" device.control_units[0]['type']==0" class="details-image" src="../../images/placeholder_boolean.PNG">
+                    <doughnut-chart-demo *ngIf=" device.control_units[0]['type']==0"></doughnut-chart-demo>
                     <img *ngIf=" device.control_units[0]['type']==1" class="details-image" src="../../images/placeholder_enum.PNG">
                     <img *ngIf=" device.control_units[0]['type']==2" class="details-image" src="../../images/placeholder_continuous.PNG">
                 </div>
                 <div class="details-data">
                     <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
                     <textarea id="details-log" class="detail-logs" placeholder="Gerätelog" readonly rows="6" [innerHTML]="logText"></textarea>
-                    <!-- boolsche FERTIG -->
-                    <div class="details-settings" *ngIf="device.control_units[0]['type']==0">
-                        <h3 class="details-headline">Ein-/Ausschalten</h3>
-                        <form class="update-form" method="post">
+                    <div class="details-settings">
+                        <h3 class="details-headline">{{ device.control_units[0]['name'] }}</h3>
+                        <!-- boolsche -->
+                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==0">
                             <label class="update-form-field" id="current-value">
-                                <span class="current-value">derzeit: {{ device.control_units[0]['current']==1?"An":"Aus" }}</span>
+                                <span class="current-value">derzeit: {{ device.control_units[0]['current'] }}</span>
                             </label>
                             <label class="accessibility" for="new-value">Bitte gewünschten Wert auswählen.</label>
                             <input type="checkbox" id="new-value" class="update-checkbox-input form-input" [checked]="device.control_units[0]['current']" name="new-value" #controlbox>
                             <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen" (click)=switchState(controlbox.checked)>
                         </form>
-                    </div>
-                    <!-- diskrete -->
-                    <div class="details-settings" *ngIf="device.control_units[0]['type']==1">
-                        <h3 class="details-headline">Gerätezustand einstellen</h3>
-                        <form class="update-form" method="post">
+                        <!-- diskrete -->
+                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==1">
                             <label class="update-form-field" id="current-value">
                                 <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
                             </label>
@@ -95,11 +92,8 @@
                             </select>
                             <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen" (click)=chooseState(optionbox.value)>
                         </form>
-                    </div>
-                    <!-- kontiniuerliche -->
-                    <div class="details-settings" *ngIf="device.control_units[0]['type']==2">
-                        <h3 class="details-headline">Temperatur einstellen</h3>
-                        <form class="update-form" method="post">
+                        <!-- kontiniuerliche -->
+                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==2">
                             <label class="update-form-field" id="current-value">
                                 <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
                             </label>

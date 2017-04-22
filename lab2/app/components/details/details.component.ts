@@ -5,12 +5,14 @@ import 'rxjs/add/operator/switchMap';
 import { Location } from '@angular/common';
 import { Device } from '../../model/device';
 import {ControlType} from '../../model/controlType';
+import { ChartsModule } from 'ng2-charts';
+import {DoughnutChartDemoComponent} from './doughnut-chart-demo.component';
 
 
 @Component({
     moduleId: module.id,
     selector: 'details2', // !!Da in HTML5 ein <details> element gibt!!
-    templateUrl: './details.component.html',
+    templateUrl: './details.component.html'
 })
 export class DetailsComponent implements OnInit{
     device: Device;
