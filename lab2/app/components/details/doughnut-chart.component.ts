@@ -1,22 +1,15 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
+import {Device} from '../../model/device';
 
 @Component({
   moduleId: module.id,
   selector: 'doughnut-chart',
   templateUrl: './doughnut-chart.component.html'
 })
-export class DoughnutChartComponent {
+export class DoughnutChartComponent{
   // Doughnut
-  public doughnutChartLabels:string[] = ['An', 'Aus'];
-  public doughnutChartData:number[] = [350, 450];
-  public doughnutChartType:string = 'doughnut';
- 
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
- 
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
+  public doughnutChartLabels: string[] = ['Aus','An'];
+  public doughnutChartData: number[] = [0,0];
+  public doughnutChartType: string = 'doughnut';
+  @Input() d : Device;
 }
