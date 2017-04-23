@@ -12,8 +12,9 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { OptionsComponent } from './components/options/options.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import {DoughnutChartDemoComponent} from './components/details/doughnut-chart-demo.component';
-
+import {DoughnutChartComponent} from './components/details/doughnut-chart.component';
+import {LineChartComponent} from './components/details/line-chart.component';
+import {PolarAreaChartComponent} from './components/details/polar-area-chart.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,9 @@ import {DoughnutChartDemoComponent} from './components/details/doughnut-chart-de
     AppRoutingModule
   ],
   declarations: [
-    AppComponent,DetailsComponent,LoginComponent,OverviewComponent,OptionsComponent,DoughnutChartDemoComponent
+    AppComponent,DetailsComponent,LoginComponent,
+    OverviewComponent,OptionsComponent,DoughnutChartComponent,LineChartComponent,
+    PolarAreaChartComponent
   ],
   providers: [ DeviceService ],
   bootstrap: [ AppComponent ]

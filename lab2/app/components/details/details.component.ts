@@ -60,7 +60,7 @@ export class DetailsComponent implements OnInit{
     
     private getNowFormatted() : string {
         let now  = new Date(Date.now());
-        let currDate : string = now.getDay() + "." + now.getMonth() + "." + now.getFullYear() + " " + now.getHours() + "." + now.getMinutes() + "." + now.getSeconds();
+        let currDate : string = now.getDate() + "." + (now.getMonth() + 1) + "." + now.getFullYear() + " " + now.getHours() + "." + now.getMinutes() + "." + now.getSeconds();
         return currDate;   
     }
 

@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   moduleId: module.id,
-  selector: 'doughnut-chart-demo',
-  templateUrl: './doughnut-chart-demo.component.html'
+  selector: 'doughnut-chart',
+  templateUrl: './doughnut-chart.component.html'
 })
-export class DoughnutChartDemoComponent {
+export class DoughnutChartComponent {
   // Doughnut
   public doughnutChartLabels:string[] = ['An', 'Aus'];
   public doughnutChartData:number[] = [350, 450];
@@ -20,4 +20,3 @@ export class DoughnutChartDemoComponent {
     console.log(e);
   }
 }
-//http://valor-software.com/ng2-charts/

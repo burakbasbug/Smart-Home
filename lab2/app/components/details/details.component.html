@@ -63,9 +63,9 @@
         <div class="details-holder">
             <div class="details-outer">
                 <div class="details-image-container">
-                    <doughnut-chart-demo *ngIf=" device.control_units[0]['type']==0"></doughnut-chart-demo>
+                    <doughnut-chart *ngIf=" device.control_units[0]['type']==0"></doughnut-chart>
+                    <line-chart *ngIf=" device.control_units[0]['type']==2"></line-chart>
                     <img *ngIf=" device.control_units[0]['type']==1" class="details-image" src="../../images/placeholder_enum.PNG">
-                    <img *ngIf=" device.control_units[0]['type']==2" class="details-image" src="../../images/placeholder_continuous.PNG">
                 </div>
                 <div class="details-data">
                     <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
