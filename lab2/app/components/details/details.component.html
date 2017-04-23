@@ -63,9 +63,9 @@
         <div class="details-holder">
             <div class="details-outer">
                 <div class="details-image-container">
-                    <doughnut-chart *ngIf=" device.control_units[0]['type']==0"></doughnut-chart>
-                    <line-chart *ngIf=" device.control_units[0]['type']==2"></line-chart>
-                    <img *ngIf=" device.control_units[0]['type']==1" class="details-image" src="../../images/placeholder_enum.PNG">
+                    <doughnut-chart *ngIf=" device.control_units[0]['type']==controlType.boolean" [d]="device"></doughnut-chart>
+                    <line-chart *ngIf=" device.control_units[0]['type']==controlType.continuous"></line-chart>
+                    <polar-area-chart *ngIf=" device.control_units[0]['type']==controlType.enum"></polar-area-chart>
                 </div>
                 <div class="details-data">
                     <label class="accessibility" for="details-log">Letzte Werteänderungen</label>
@@ -73,7 +73,7 @@
                     <div class="details-settings">
                         <h3 class="details-headline">{{ device.control_units[0]['name'] }}</h3>
                         <!-- boolsche -->
-                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==0">
+                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==controlType.boolean">
                             <label class="update-form-field" id="current-value">
                                 <span class="current-value">derzeit: {{ device.control_units[0]['current'] }}</span>
                             </label>
@@ -82,7 +82,7 @@
                             <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen" (click)=switchState(controlbox.checked)>
                         </form>
                         <!-- diskrete -->
-                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==1">
+                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==controlType.enum">
                             <label class="update-form-field" id="current-value">
                                 <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
                             </label>
@@ -93,7 +93,7 @@
                             <input type="submit" id="submit-value" class="update-form-field button" name="submit-value" value="Wert setzen" (click)=chooseState(optionbox.value)>
                         </form>
                         <!-- kontiniuerliche -->
-                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==2">
+                        <form class="update-form" method="post" *ngIf="device.control_units[0]['type']==controlType.continuous">
                             <label class="update-form-field" id="current-value">
                                 <span class="current-value">derzeit: {{ device.control_units[0]['current']}}</span>
                             </label>

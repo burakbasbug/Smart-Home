@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
 
 @Component({
     moduleId: module.id,
@@ -11,15 +11,5 @@ export class PolarAreaChartComponent {
     public polarAreaChartLabels: string[] = ['Download Sales', 'In-Store Sales', 'Mail Sales', 'Telesales', 'Corporate Sales'];
     public polarAreaChartData: number[] = [300, 500, 100, 40, 120];
     public polarAreaLegend: boolean = true;
-
     public polarAreaChartType: string = 'polarArea';
-
-    // events
-    public chartClicked(e: any): void {
-        console.log(e);
-    }
-
-    public chartHovered(e: any): void {
-        console.log(e);
-    }
 }
