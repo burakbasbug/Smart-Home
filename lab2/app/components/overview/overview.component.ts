@@ -1,15 +1,17 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterContentInit, Component, OnInit} from '@angular/core';
 import {DeviceService} from '../../services/device.service';
 import {Device} from '../../model/device';
 import {ControlType} from "../../model/controlType";
 
+
+declare var $: any;
 
 @Component({
     moduleId: module.id,
     selector: 'overview',
     templateUrl: './overview.component.html',
 })
-export class OverviewComponent implements OnInit, AfterViewInit {
+export class OverviewComponent implements OnInit, AfterContentInit {
     devices: Device[];
     promise: Promise<Device[]>;
 
@@ -21,12 +23,13 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         this.promise.then(x => this.devices = x);
     }
 
-    ngAfterViewInit() {
-        this.promise.then(function (list) {
+    ngAfterContentInit() {
+        // auskommentiert, da es zu früh passiert, also die Elemente noch nicht existieren
+        /*this.promise.then(function (list) {
             list.forEach(function (device) {
                 device.control_units.forEach(function (control_unit) {
                     if (control_unit.primary) {
-                        if(control_unit.type == ControlType.continuous) { // min, max, current
+                        if (control_unit.type == ControlType.continuous) { // min, max, current
                             device.draw_image(device.id, device.image, control_unit.min, control_unit.max, control_unit.current, null);
                         } else if (control_unit.type == ControlType.enum) { // current, values
                             device.draw_image(device.id, device.image, null, null, control_unit.current, control_unit.values);
@@ -38,6 +41,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
             });
         }).catch(function (e) {
             alert(e);
-        });
+        });*/
     }
 }

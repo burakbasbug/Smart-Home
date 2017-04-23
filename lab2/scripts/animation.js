@@ -12,7 +12,8 @@
  */
 
 
-function drawThermometer(id, src, min, max, current, values) {
+//function drawThermometer(id, src, min, max, current, values) {
+function drawThermometer(id, src, controlUnits) {
     /*
    Passen Sie die Höhe des Temperaturstandes entsprechend dem aktuellen Wert an.
    Beachten Sie weiters, dass auch die Beschriftung des Thermometers (max, min Temperatur) angepasst werden soll.
@@ -23,14 +24,16 @@ function drawThermometer(id, src, min, max, current, values) {
 }
 
 
-function drawBulb(id, src, min, max, current, values) {
+//function drawBulb(id, src, min, max, current, values) {
+function drawBulb(id, src, controlUnits) {
     drawOriginalSvg(id, src);
     // current 0/1: aus/ein
     // ein: gelb
     // aus: schwarz
 }
 
-function drawCam(id, src, min, max, current, values) {
+//function drawCam(id, src, min, max, current, values) {
+function drawCam(id, src, controlUnits) {
     /*
     Verändern Sie die Darstellung der Webcam entsprechend den Vorgaben aus der Angabe.
     Dabei soll jedoch nicht nur einfach die Farbe der Elemente verändert werden, sondern es soll eine Kopie der zu verändernden Elemente erstellt
@@ -42,7 +45,8 @@ function drawCam(id, src, min, max, current, values) {
     // ein: innen blau
 }
 
-function drawShutter(id, src, min, max, current, values) { // current, values
+//function drawShutter(id, src, min, max, current, values) { // current, values
+function drawShutter(id, src, controlUnits) { // current, values
     drawOriginalSvg(id, src);
     // "Laden" je nach Wert in current ein/ausblenden
     // 0: offen nur oberstes
