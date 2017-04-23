@@ -56,7 +56,7 @@
     <main aria-labelledby="devicesheadline">
         <h2 class="main-headline" id="devicesheadline">Geräte</h2>
         <div class="devices">
-            <div class="device-outer" *ngFor="let device of devices" [attr.data-device-id]="device.id">
+            <div class="device-outer" *ngFor="let device of devices" [attr.data-device-id]="device.id" id="{{device.id}}">
                 <a [routerLink]="'/details/' + device.id" class="device" title="{{device.description}}">
 
                     <div class="device-image-container">

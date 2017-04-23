@@ -22,6 +22,14 @@ function drawThermometer(id, src, min, max, current, values) {
 
 function drawBulb(id, src, min, max, current, values) {
   // TODO
+    // id = DeviceId
+    // Anm.: Annahme, dass current ein Boolean ist und Ein/Aus enthält
+    var svg = $(id).find(".device-image")[0];
+    if (current) { // eingeschalten -> gelb
+        svg.attr("fill", "yellow");
+    } else { // ausgeschalten -> schwarz
+        svg.attr("fill", "black");
+    }
 }
 
 function drawCam(id, src, min, max, current, values) {
