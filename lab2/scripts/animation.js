@@ -21,15 +21,15 @@ function drawThermometer(id, src, min, max, current, values) {
 
 
 function drawBulb(id, src, min, max, current, values) {
-  // TODO
-    // id = DeviceId
-    // Anm.: Annahme, dass current ein Boolean ist und Ein/Aus enthält
-    var svg = $(id).find(".device-image")[0];
+    /*id = '#' + id;
+    var svg = $(id).find(".device-image");
     if (current == 1) { // eingeschalten -> gelb
         svg.attr("fill", "yellow");
+        svg.attr("src", src);
     } else { // ausgeschalten -> schwarz
         svg.attr("fill", "black");
-    }
+        svg.attr("src", src);
+    }*/
 }
 
 function drawCam(id, src, min, max, current, values) {
@@ -41,5 +41,15 @@ function drawCam(id, src, min, max, current, values) {
 }
 
 function drawShutter(id, src, min, max, current, values) {
-  // TODO
+    /*id = '#' + id;
+    var svg = $(id).find(".device-image");
+    svg.attr("src", src);
+
+    if(current == 0) { // offen
+        alert("shutterX offen");
+    } else if(current == 1) { // halb
+        alert("shutterX halb");
+    } else if(current == 2) { // geschlossen
+        alert("shutterX zu");
+    }*/
 }
