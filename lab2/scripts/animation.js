@@ -21,15 +21,6 @@ function drawThermometer(id, src, min, max, current, values) {
 
 
 function drawBulb(id, src, min, max, current, values) {
-    /*id = '#' + id;
-    var svg = $(id).find(".device-image");
-    if (current == 1) { // eingeschalten -> gelb
-        svg.attr("fill", "yellow");
-        svg.attr("src", src);
-    } else { // ausgeschalten -> schwarz
-        svg.attr("fill", "black");
-        svg.attr("src", src);
-    }*/
 }
 
 function drawCam(id, src, min, max, current, values) {
@@ -41,15 +32,20 @@ function drawCam(id, src, min, max, current, values) {
 }
 
 function drawShutter(id, src, min, max, current, values) {
-    /*id = '#' + id;
-    var svg = $(id).find(".device-image");
-    svg.attr("src", src);
+    var selector = '#' + id + " .device-image";
+    //$(selector).svg('get');
+    //$(selector).load(src, {addTo: true, changeSize: false, onLoad: shutterOnLoad});
 
-    if(current == 0) { // offen
-        alert("shutterX offen");
-    } else if(current == 1) { // halb
-        alert("shutterX halb");
-    } else if(current == 2) { // geschlossen
-        alert("shutterX zu");
-    }*/
+    var svg = $(selector).svg('get');
+    $(selector).load(src, {addTo: true,
+        changeSize: false, onLoad: shutterOnLoad});
+    //resetSize(svg);
+
+    //$(selector).svg('get'); //Erstellt ein leeres SVG Element
+    //$(selector).load(src); //Lädt das Bild*/
+
+}
+
+function shutterOnLoad(svg, error) {
+    alert("shutteronload " + svg + "\nerror " + error);
 }
