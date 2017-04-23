@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {DeviceService} from '../../services/device.service';
 import {Device} from '../../model/device';
 import {ControlType} from "../../model/controlType";
@@ -9,30 +9,34 @@ import {ControlType} from "../../model/controlType";
     selector: 'overview',
     templateUrl: './overview.component.html',
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, AfterViewInit {
     devices: Device[];
+    promise: Promise<Device[]>;
 
     constructor(private bigDeviceService: DeviceService) {
     }
 
     ngOnInit() {
-        this.bigDeviceService.getDevices().then(x => this.devices = x);
+        this.promise = this.bigDeviceService.getDevices();
+        this.promise.then(x => this.devices = x);
     }
 
     ngAfterViewInit() {
-        for (var i = 0; i < this.devices.length; i++) {
-            for (var j = 0; j < this.devices[i].control_units.length; j++) {
-                if (this.devices[i].control_units[j].primary) {
-                    if (this.devices[i].control_units[j].type == ControlType.continuous) {
-                        //draw_image(id, src, min, max, current, values)
-                        this.devices[i].draw_image(this.devices[i].id, this.devices[i].image, this.devices[i].control_units[j].min, this.devices[i].control_units[j].max, this.devices[i].control_units[j].current, null);
-                    } else if (this.devices[i].control_units[j].type == ControlType.enum) {
-                        this.devices[i].draw_image(this.devices[i].id, this.devices[i].image, null, null, this.devices[i].control_units[j].current, this.devices[i].control_units[j].values);
-                    } else if (this.devices[i].control_units[j].type == ControlType.boolean) {
-                        this.devices[i].draw_image(this.devices[i].id, this.devices[i].image, null, null, this.devices[i].control_units[j].current, null);
+        this.promise.then(function (list) {
+            list.forEach(function (device) {
+                device.control_units.forEach(function (control_unit) {
+                    if (control_unit.primary) {
+                        if(control_unit.type == ControlType.continuous) {
+                            device.draw_image(device.id, device.image, control_unit.min, control_unit.max, control_unit.current, null);
+                        } else if (control_unit.type == ControlType.enum) {
+                            device.draw_image(device.id, device.image, null, null, control_unit.current, control_unit.values);
+                        } else if (control_unit.type == ControlType.boolean) {
+                            device.draw_image(device.id, device.image, null, null, control_unit.current, null);
+                        }
                     }
-                }
-            }
-        }
+                });
+            });
+        });
+
     }
 }

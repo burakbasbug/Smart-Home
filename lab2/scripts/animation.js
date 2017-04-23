@@ -25,7 +25,7 @@ function drawBulb(id, src, min, max, current, values) {
     // id = DeviceId
     // Anm.: Annahme, dass current ein Boolean ist und Ein/Aus enthält
     var svg = $(id).find(".device-image")[0];
-    if (current) { // eingeschalten -> gelb
+    if (current == 1) { // eingeschalten -> gelb
         svg.attr("fill", "yellow");
     } else { // ausgeschalten -> schwarz
         svg.attr("fill", "black");
