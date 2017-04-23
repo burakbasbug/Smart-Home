@@ -19,8 +19,6 @@ export class OverviewComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.promise = this.bigDeviceService.getDevices();
         this.promise.then(x => this.devices = x);
-
-
     }
 
     ngAfterViewInit() {
@@ -41,6 +39,5 @@ export class OverviewComponent implements OnInit, AfterViewInit {
         }).catch(function (e) {
             alert(e);
         });
-
     }
 }

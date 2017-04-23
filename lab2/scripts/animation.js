@@ -13,39 +13,49 @@
 
 
 function drawThermometer(id, src, min, max, current, values) {
-  /* TODO
+    /*
    Passen Sie die Höhe des Temperaturstandes entsprechend dem aktuellen Wert an.
    Beachten Sie weiters, dass auch die Beschriftung des Thermometers (max, min Temperatur) angepasst werden soll.
    */
+    drawOriginalSvg(id, src);
+    // min/max neben Thermometer schreiben
+    // current bestimmt Höhe des Balkens
 }
 
 
 function drawBulb(id, src, min, max, current, values) {
+    drawOriginalSvg(id, src);
+    // current 0/1: aus/ein
+    // ein: gelb
+    // aus: schwarz
 }
 
 function drawCam(id, src, min, max, current, values) {
-  /* TODO
+    /*
     Verändern Sie die Darstellung der Webcam entsprechend den Vorgaben aus der Angabe.
     Dabei soll jedoch nicht nur einfach die Farbe der Elemente verändert werden, sondern es soll eine Kopie der zu verändernden Elemente erstellt
      und anschließend die aktuellen durch die angepassten Kopien ersetzt werden.
-   */
+    */
+    drawOriginalSvg(id, src);
+    // current 0: aus, 1: ein
+    // aus: innen schwarz
+    // ein: innen blau
 }
 
-function drawShutter(id, src, min, max, current, values) {
+function drawShutter(id, src, min, max, current, values) { // current, values
+    drawOriginalSvg(id, src);
+    // "Laden" je nach Wert in current ein/ausblenden
+    // 0: offen nur oberstes
+    // 1: halb obere 2
+    // 2: geschlossen alle 4
+}
+
+function drawOriginalSvg(id, src) {
     var selector = '#' + id + " .device-image";
-    //$(selector).svg('get');
-    //$(selector).load(src, {addTo: true, changeSize: false, onLoad: shutterOnLoad});
-
+    $(selector).svg();
     var svg = $(selector).svg('get');
-    $(selector).load(src, {addTo: true,
-        changeSize: false, onLoad: shutterOnLoad});
-    //resetSize(svg);
-
-    //$(selector).svg('get'); //Erstellt ein leeres SVG Element
-    //$(selector).load(src); //Lädt das Bild*/
-
+    svg.load(src, {addTo: true, changeSize: false});//, onLoad: shutterOnLoad});
 }
-
-function shutterOnLoad(svg, error) {
+/*function shutterOnLoad(svg, error) {
     alert("shutteronload " + svg + "\nerror " + error);
-}
+}*/
