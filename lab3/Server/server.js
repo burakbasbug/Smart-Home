@@ -40,7 +40,7 @@ var connectedClients = [];
  *      Vergessen Sie auch nicht, dass jeder Client mit aktiver Verbindung über alle Aktionen via Websocket zu informieren ist.
  *      Bei der Anlage neuer Geräte wird eine neue ID benötigt. Verwenden Sie dafür eine uuid (https://www.npmjs.com/package/uuid, Bibliothek ist bereits eingebunden).
  */
-app.post("/deviceList", function(req, res) {
+app.get("/deviceList", function(req, res) {
    res.send(JSON.stringify(devices));
 });
 
@@ -74,7 +74,7 @@ app.post("/changePassword", function (req, res) {
 
 });
 
-app.post("/getServerStatus", function (req, res) {
+app.get("/getServerStatus", function (req, res) {
 
 });
 
