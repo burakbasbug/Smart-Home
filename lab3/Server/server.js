@@ -18,6 +18,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
 
+// globale Variablen
+var username;
+var password;
+var devices; //Array von Devices als JSON-Objekte
+var connectedClients = [];
+
 //TODO Implementieren Sie hier Ihre REST-Schnittstelle
 /* Ermöglichen Sie wie in der Angabe beschrieben folgende Funktionen:
  *  Abrufen aller Geräte als Liste
@@ -34,6 +40,17 @@ app.use(cors());
  *      Vergessen Sie auch nicht, dass jeder Client mit aktiver Verbindung über alle Aktionen via Websocket zu informieren ist.
  *      Bei der Anlage neuer Geräte wird eine neue ID benötigt. Verwenden Sie dafür eine uuid (https://www.npmjs.com/package/uuid, Bibliothek ist bereits eingebunden).
  */
+app.post("/deviceList", function(req, res) {
+   res.send(JSON.stringify(devices));
+});
+
+app.post("/addDevice", function (req, res) {
+
+});
+
+app.post("/deleteDevice", function (req, res) {
+
+});
 
 app.post("/updateCurrent", function (req, res) {
     "use strict";
@@ -45,20 +62,54 @@ app.post("/updateCurrent", function (req, res) {
      */
 });
 
+app.post("/login", function (req, res) {
+
+});
+
+app.post("/logout", function (req, res) {
+
+});
+
+app.post("/changePassword", function (req, res) {
+
+});
+
+app.post("/getServerStatus", function (req, res) {
+
+});
 
 function readUser() {
     "use strict";
-    //TODO Lesen Sie die Benutzerdaten aus dem login.config File ein.
+    //TODO-fertig Lesen Sie die Benutzerdaten aus dem login.config File ein.
+    fs.readFile("resources/login.config", {encoding: 'utf-8'}, function(err, data){
+        if (!err) {
+            username = data.split('\n')[0].split(': ')[1];
+            console.log("read username = " + username);
+            password = data.split('\n')[1].split(': ')[1];
+            console.log("read pwd = " + password);
+        } else {
+            console.log('error reading login.config: ' + err);
+        }
+    });
 }
 
 function readDevices() {
     "use strict";
-    //TODO Lesen Sie die Gerätedaten aus der devices.json Datei ein.
+    //TODO-fertig Lesen Sie die Gerätedaten aus der devices.json Datei ein.
     /*
      * Damit die Simulation korrekt funktioniert, müssen Sie diese mit nachfolgender Funktion starten
      *      simulation.simulateSmartHome(devices.devices, refreshConnected);
      * Der zweite Parameter ist dabei eine callback-Funktion, welche zum Updaten aller verbundenen Clients dienen soll.
      */
+    fs.readFile("resources/devices.json", {encoding: 'utf-8'}, function(err, data){
+        if (!err) {
+            devices = JSON.parse(data).devices;
+            console.log(devices.length + ' devices read');
+            simulation.simulateSmartHome(devices, refreshConnected);
+        } else {
+            console.log('error reading devices.json: ' + err);
+        }
+    });
 }
 
 
@@ -72,6 +123,7 @@ function refreshConnected() {
      *
      * Bitte beachten Sie, dass diese Funktion von der Simulation genutzt wird um periodisch die simulierten Daten an alle Clients zu übertragen.
      */
+    console.log("refreshConnected")
 }
 
 
