@@ -5,12 +5,13 @@ import {DEVICES} from '../resources/mock-device';
 import {DeviceParserService} from './device-parser.service';
 
 import 'rxjs/add/operator/toPromise';
+import {Http} from '@angular/http';
 
 
 @Injectable()
 export class DeviceService {
 
-    constructor(private parserService: DeviceParserService) {
+    constructor(private parserService: DeviceParserService, private http:Http) {
     }
 
     //TODO Sie können dieses Service benutzen, um alle REST-Funktionen für die Smart-Devices zu implementieren
@@ -21,7 +22,16 @@ export class DeviceService {
          * Verwenden Sie das DeviceParserService um die via REST ausgelesenen Geräte umzuwandeln.
          * Das Service ist dabei bereits vollständig implementiert und kann wie unten demonstriert eingesetzt werden.
          */
-        return Promise.resolve(DEVICES).then(devices => {
+        let ds:Device[] = [];
+         this.http.get("http://localhost:8081/deviceList").forEach((resp)=>{
+            let a = resp.json();
+            for(let i=0; i<a.length;i++){
+                ds[i] = this.parserService.parseDevice(a[i]);
+                console.log(ds[i]);
+            }
+         });
+
+        return Promise.resolve(ds).then(devices => {
             for (let i = 0; i < devices.length; i++) {
                 devices[i] = this.parserService.parseDevice(devices[i]);
             }
