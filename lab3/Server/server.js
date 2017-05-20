@@ -126,10 +126,9 @@ app.post("/login", function (req, res) {
     var pwd = req.body.password;
     if (user === valid_username && pwd === valid_password) {
         console.log("login successful");
-
         var token = jwt.sign({"username": user, "password": pwd, "time": new Date()}, privateKey);
         connectedClientsJWT.push(token);
-        res.status(200).send(token);
+        res.setHeader("token", token);
         res.status(200).send();
     } else {
         console.log("login failed: " + user + ", " + pwd);
@@ -141,7 +140,7 @@ app.post("/login", function (req, res) {
 
 app.post("/logout", function (req, res) {
     if(verifyJWT(req)) {
-        connectedClientsJWT.remove(req.body.token);
+        connectedClientsJWT.remove(req.headers.authorization.split(" ")[1]);
         res.status(200).send("successful");
     } else {
         res.status(200).send("invalid_jwt");
@@ -189,17 +188,22 @@ app.get("/getServerStatus", function (req, res) {
 });
 
 function verifyJWT(req) {
-    var token = req.body.token;
-    try {
-        var decoded = jwt.verify(token, privateKey);
-        // decoded.username === valid_username && decoded.password === valid_password &&
-        if(connectedClientsJWT.indexOf(req.body.token) !== -1) {
-            return true;
+    if(req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer"){
+        var token = req.headers.authorization;
+        token = token.split(" ")[1];
+        console.log(jwt.verify(token,privateKey));
+        try {
+            //var decoded = jwt.verify(token, privateKey);
+            //decoded.username === valid_username && decoded.password === valid_password &&
+            if(connectedClientsJWT.indexOf(token) !== -1) {
+                return true;
+            }
+        } catch(err) {
+            console.log("jwt invalid");
         }
-    } catch(err) {
-        console.log("jwt invalid");
+    }else{
+        return false;
     }
-    return false;
 }
 
 function readUser() {

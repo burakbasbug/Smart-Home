@@ -9,12 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var mock_device_1 = require('../resources/mock-device');
 var device_parser_service_1 = require('./device-parser.service');
 require('rxjs/add/operator/toPromise');
+var http_1 = require('@angular/http');
 var DeviceService = (function () {
-    function DeviceService(parserService) {
+    function DeviceService(parserService, http) {
         this.parserService = parserService;
+        this.http = http;
     }
     //TODO Sie können dieses Service benutzen, um alle REST-Funktionen für die Smart-Devices zu implementieren
     DeviceService.prototype.getDevices = function () {
@@ -24,7 +25,17 @@ var DeviceService = (function () {
          * Verwenden Sie das DeviceParserService um die via REST ausgelesenen Geräte umzuwandeln.
          * Das Service ist dabei bereits vollständig implementiert und kann wie unten demonstriert eingesetzt werden.
          */
-        return Promise.resolve(mock_device_1.DEVICES).then(function (devices) {
+        var ds = [];
+        var headers = new Headers();
+        headers.append("authorization", "Bearer " + localStorage.getItem("token"));
+        this.http.get("http://localhost:8081/deviceList", headers).forEach(function (resp) {
+            var a = resp.json();
+            for (var i = 0; i < a.length; i++) {
+                ds[i] = _this.parserService.parseDevice(a[i]);
+                console.log(ds[i]);
+            }
+        });
+        return Promise.resolve(ds).then(function (devices) {
             for (var i = 0; i < devices.length; i++) {
                 devices[i] = _this.parserService.parseDevice(devices[i]);
             }
@@ -37,7 +48,7 @@ var DeviceService = (function () {
     };
     DeviceService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [device_parser_service_1.DeviceParserService])
+        __metadata('design:paramtypes', [device_parser_service_1.DeviceParserService, http_1.Http])
     ], DeviceService);
     return DeviceService;
 }());

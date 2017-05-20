@@ -23,7 +23,10 @@ export class DeviceService {
          * Das Service ist dabei bereits vollständig implementiert und kann wie unten demonstriert eingesetzt werden.
          */
         let ds:Device[] = [];
-         this.http.get("http://localhost:8081/deviceList").forEach((resp)=>{
+        let headers: Headers = new Headers();
+        headers.append("authorization", "Bearer " + localStorage.getItem("token"));
+
+         this.http.get("http://localhost:8081/deviceList",headers).forEach((resp)=>{
             let a = resp.json();
             for(let i=0; i<a.length;i++){
                 ds[i] = this.parserService.parseDevice(a[i]);
