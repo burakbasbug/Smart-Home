@@ -70,7 +70,7 @@ app.post("/addDevice", function (req, res) {
     }
 });
 
-app.post("/deleteDevice", function (req, res) {
+app.delete("/deleteDevice", function (req, res) {
     if(verifyJWT(req)) {
         var device = devices.filter(function (el) {
             return el.id === req.body.id;
@@ -124,7 +124,6 @@ app.post("/login", function (req, res) {
     // read request data
     var user = req.body.username;
     var pwd = req.body.password;
-
     if (user === valid_username && pwd === valid_password) {
         console.log("login successful");
 
@@ -133,7 +132,7 @@ app.post("/login", function (req, res) {
         res.status(200).send(token);
         res.status(200).send();
     } else {
-        console.log("login failed: " + user + ": " + pwd);
+        console.log("login failed: " + user + ", " + pwd);
         failed_logins++;
         res.status(200).send("invalid_login");
     }
@@ -209,6 +208,7 @@ function readUser() {
     fs.readFile("resources/login.config", {encoding: 'utf-8'}, function(err, data){
         if (!err) {
             valid_username = data.split('\n')[0].split(': ')[1];
+            valid_username = valid_username.split('\r')[0];
             console.log("read username = " + valid_username);
             valid_password = data.split('\n')[1].split(': ')[1];
             console.log("read pwd = " + valid_password);
@@ -248,7 +248,7 @@ function refreshConnected() {
      *
      * Bitte beachten Sie, dass diese Funktion von der Simulation genutzt wird um periodisch die simulierten Daten an alle Clients zu übertragen.
      */
-    console.log("refreshConnected")
+    //console.log("refreshConnected")
 }
 
 
