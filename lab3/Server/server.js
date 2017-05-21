@@ -49,9 +49,9 @@ var privateKey = 'OURPRIVATEKEY';
  */
 app.get("/deviceList", function(req, res) {
     if(verifyJWT(req)) {
-        res.status(200).send(JSON.stringify(devices));
+        res.status(200).json(devices);
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
     }
 });
 
@@ -75,7 +75,7 @@ app.post("/addDevice", function (req, res) {
         res.status(200).send("successful");
         refreshConnected();
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
     }
 });
 
@@ -85,10 +85,10 @@ app.delete("/deleteDevice", function (req, res) {
             return el.id === req.body.id;
         });
         devices.remove(device);
-        res.status(200).send("successful");
+        res.status(200).json("successful");
         refreshConnected();
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
     }
 });
 
@@ -98,10 +98,10 @@ app.post("/updateDeviceName", function (req, res) {
             return el.id === req.body.id;
         });
         device.display_name = req.body.name;
-        res.status(200).send("successful");
+        res.status(200).json("successful");
         refreshConnected();
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
     }
 });
 
@@ -125,7 +125,7 @@ app.post("/updateCurrent", function (req, res) {
         simulation.updatedDeviceValue(device, control_unit, Number(req.body.new_value));
         refreshConnected();
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
     }
 });
 
@@ -141,17 +141,20 @@ app.post("/login", function (req, res) {
     } else {
         console.log("login failed: " + user + ", " + pwd);
         failed_logins++;
-        res.status(200).send("invalid_login");
+        res.status(401).json("invalid_login");
     }
 
 });
 
 app.post("/logout", function (req, res) {
+    "use strict";
     if(verifyJWT(req)) {
-        connectedClientsJWT.remove(req.headers.authorization.split(" ")[1]);
-        res.status(200).send("successful");
+        delete connectedClientsJWT[req.headers.authorization.split(" ")[1]];
+        res.status(200).json("successful");
+        console.log("logout successful");
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
+
     }
 });
 
@@ -162,22 +165,22 @@ app.post("/changePassword", function (req, res) {
         var newPwdRep = req.body.newPasswordRep;
 
         if(oldPwd !== valid_password) {
-            res.status(200).send("invalid, old password incorrect");
+            res.status(200).json("invalid, old password incorrect");
         } else if(newPwd !== newPwdRep) {
-            res.status(200).send("invalid, new passwords dont match");
+            res.status(200).json("invalid, new passwords dont match");
         } else {
             valid_password = newPwd;
             var fileContent = "username: " + valid_username + "\npassword: " + valid_password;
             fs.writeFile("resources/login.config", fileContent, {encoding: 'utf-8'}, function (err) {
                 if(!err) {
-                    res.status(200).send("successful");
+                    res.status(200).json("successful");
                 } else {
-                    res.status(500).send("error writing password to file: " + err);
+                    res.status(500).json("error writing password to file: " + err);
                 }
             });
         }
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
     }
 });
 
@@ -191,7 +194,7 @@ app.get("/getServerStatus", function (req, res) {
             "attempts": failed_logins
         });
     } else {
-        res.status(200).send("invalid_jwt");
+        res.status(200).json("invalid_jwt");
     }
 });
 
@@ -199,7 +202,6 @@ function verifyJWT(req) {
     if(req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer"){
         var token = req.headers.authorization;
         token = token.split(" ")[1];
-        console.log(jwt.verify(token,privateKey));
         try {
             //var decoded = jwt.verify(token, privateKey);
             //decoded.username === valid_username && decoded.password === valid_password &&

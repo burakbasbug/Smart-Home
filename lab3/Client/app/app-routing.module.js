@@ -14,13 +14,14 @@ var overview_component_1 = require('./components/overview.component');
 var login_component_1 = require('./components/login.component');
 var options_component_1 = require('./components/options.component');
 var device_details_component_1 = require("./components/device-details.component");
+var auth_guard_1 = require('./guards/auth.guard');
 //TODO Setzen Sie Angular Guards ein um einen unbefugten Zugriff zu verhindern
 var routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: login_component_1.LoginComponent },
-    { path: 'overview', component: overview_component_1.OverviewComponent },
-    { path: 'options', component: options_component_1.OptionsComponent },
-    { path: 'details/:id', component: device_details_component_1.DeviceDetailsComponent },
+    { path: 'overview', component: overview_component_1.OverviewComponent, canActivate: [auth_guard_1.AuthGuard] },
+    { path: 'options', component: options_component_1.OptionsComponent, canActivate: [auth_guard_1.AuthGuard] },
+    { path: 'details/:id', component: device_details_component_1.DeviceDetailsComponent, canActivate: [auth_guard_1.AuthGuard] },
     { path: '**', redirectTo: '/login', pathMatch: 'full' },
 ];
 var AppRoutingModule = (function () {
