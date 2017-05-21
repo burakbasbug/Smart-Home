@@ -15,14 +15,14 @@ export class AuthenticationService {
             let token = response.json();
             if (token) {
                 localStorage.setItem('token', token);
-               let ws  = new WebSocket("ws://localhost:8081");
+               /*let ws  = new WebSocket("ws://localhost:8081");
 
                 console.log("client socket created",ws);
                 ws.onmessage = function (evt)
                 {
                     console.log("Message is received...",evt.data);
                 };
-                ws.close();
+                ws.close();*/
                 return true;
             } else {
                 //failed login
