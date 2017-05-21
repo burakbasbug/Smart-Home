@@ -162,8 +162,8 @@ app.post("/changePassword", function (req, res) {
     if(verifyJWT(req)) {
         var oldPwd = req.body.oldPassword;
         var newPwd = req.body.newPassword;
-        var newPwdRep = req.body.newPasswordRep;
-
+        var newPwdRep = req.body.repeatPassword;
+console.log(oldPwd + " " + newPwd + " " + newPwdRep);
         if(oldPwd !== valid_password) {
             res.status(200).json("invalid, old password incorrect");
         } else if(newPwd !== newPwdRep) {
