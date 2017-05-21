@@ -12,10 +12,12 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var options_component_1 = require("./options.component");
 var login_component_1 = require("./login.component");
+var authentication_service_1 = require('../services/authentication.service');
 var NavigationComponent = (function () {
-    function NavigationComponent(router, route) {
+    function NavigationComponent(router, route, authService) {
         this.router = router;
         this.route = route;
+        this.authService = authService;
     }
     ;
     NavigationComponent.prototype.isOptionsShown = function () {
@@ -32,7 +34,7 @@ var NavigationComponent = (function () {
     };
     NavigationComponent.prototype.doLogout = function () {
         //TODO Loggen Sie den Benutzer über die REST-Schnittstelle aus
-        this.router.navigate(["/login"]);
+        this.authService.logout();
     };
     NavigationComponent = __decorate([
         core_1.Component({
@@ -40,7 +42,7 @@ var NavigationComponent = (function () {
             selector: 'my-navigation',
             templateUrl: '../views/navigation.component.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute])
+        __metadata('design:paramtypes', [router_1.Router, router_1.ActivatedRoute, authentication_service_1.AuthenticationService])
     ], NavigationComponent);
     return NavigationComponent;
 }());

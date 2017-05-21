@@ -10,30 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
+var authentication_service_1 = require('../services/authentication.service');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/catch');
 var LoginComponent = (function () {
-    function LoginComponent(router, http) {
+    function LoginComponent(router, authService) {
         this.router = router;
-        this.http = http;
-        this.loginError = false;
+        this.authService = authService;
     }
     LoginComponent.prototype.onSubmit = function (form) {
         //TODO-Fertig Überprüfen Sie die Login-Daten über die REST-Schnittstelle und leiten Sie den Benutzer bei Erfolg auf die Overview-Seite weiter
         var _this = this;
-        this.http.post('http://localhost:8081/login', form.value)
-            .subscribe(function (response) {
-            try {
-                var resp = response.json();
-                console.log("LOGGED IN!");
-                localStorage.setItem("token", resp);
+        this.authService.login(form.value).subscribe(function (authSucceed) {
+            console.log(authSucceed);
+            if (authSucceed === true) {
                 _this.router.navigate(['/overview']);
+                console.log('logged in');
             }
-            catch (e) {
-                console.log("Unable to route : " + e);
+            else {
+                console.log('Username or password is incorrect');
             }
-        }, function (err) { return console.log("Unexpected error: " + err); });
+        });
     };
     LoginComponent = __decorate([
         core_1.Component({
@@ -41,7 +38,7 @@ var LoginComponent = (function () {
             selector: 'my-login',
             templateUrl: '../views/login.html'
         }), 
-        __metadata('design:paramtypes', [router_1.Router, http_1.Http])
+        __metadata('design:paramtypes', [router_1.Router, authentication_service_1.AuthenticationService])
     ], LoginComponent);
     return LoginComponent;
 }());
