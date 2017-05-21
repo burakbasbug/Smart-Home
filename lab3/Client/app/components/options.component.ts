@@ -34,7 +34,7 @@ export class OptionsComponent implements OnInit {
      */
     onSubmit(form: NgForm): void {
 
-        //TODO Lesen Sie Daten aus der Form aus und übertragen Sie diese an Ihre REST-Schnittstelle
+        //TODO-fertig Lesen Sie Daten aus der Form aus und übertragen Sie diese an Ihre REST-Schnittstelle
         if (!form) {
             return;
         }
