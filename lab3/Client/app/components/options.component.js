@@ -34,6 +34,14 @@ var OptionsComponent = (function () {
         if (!form) {
             return;
         }
+        var authHeader = new http_1.Headers();
+        authHeader.append('authorization', "Bearer " + localStorage.getItem('token'));
+        var pwds = {
+            oldPassword: form.value['old-password'],
+            newPassword: form.value['new-password'],
+            repeatPassword: form.value['repeat-password']
+        };
+        this.http.post('http://localhost:8081/changePassword', pwds, { headers: authHeader }).toPromise().then(function (res) { return console.log(res.json()); });
         form.resetForm();
     };
     OptionsComponent = __decorate([

@@ -38,6 +38,17 @@ export class OptionsComponent implements OnInit {
         if (!form) {
             return;
         }
+
+        let authHeader = new Headers();
+        authHeader.append('authorization', `Bearer ${localStorage.getItem('token')}`);
+
+        let pwds = {
+            oldPassword: form.value['old-password'],
+            newPassword: form.value['new-password'],
+            repeatPassword: form.value['repeat-password']
+        };
+        this.http.post('http://localhost:8081/changePassword', pwds,{ headers:authHeader }).toPromise().then(res => console.log(res.json()));
+
         form.resetForm();
 
     }

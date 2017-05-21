@@ -11,10 +11,8 @@ export class AuthenticationService {
 
     login(credentials: any): Observable<boolean> {
         return this.http.post('http://localhost:8081/login', credentials).map((response: Response) => {
-            console.log("service: " + response);
-            // login successful if there's a jwt token in the response
+            // login successful
             let token = response.json();
-            console.log("REZPONZ: " + token);
             if (token) {
                 localStorage.setItem('token', token);
                 return true;

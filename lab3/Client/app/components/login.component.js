@@ -22,7 +22,6 @@ var LoginComponent = (function () {
         //TODO-Fertig Überprüfen Sie die Login-Daten über die REST-Schnittstelle und leiten Sie den Benutzer bei Erfolg auf die Overview-Seite weiter
         var _this = this;
         this.authService.login(form.value).subscribe(function (authSucceed) {
-            console.log(authSucceed);
             if (authSucceed === true) {
                 _this.router.navigate(['/overview']);
                 console.log('logged in');
