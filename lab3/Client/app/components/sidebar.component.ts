@@ -19,14 +19,8 @@ export class SidebarComponent implements OnInit{
     let authHeader = new Headers();
     authHeader.append('authorization', `Bearer ${localStorage.getItem('token')}`);
     this.http.get('http://localhost:8081/getServerStatus',{ headers:authHeader }).subscribe( (response) => {
-      console.log(response.json());
       this.failed_logins = response.json().attempts;
-
-/*Repsonse:
-"username": valid_username,
-"startDate": server_start_date,
-"startTime": server_start_time,
-"attempts": failed_logins*/
+      this.server_start = new Date(response.json().server_start);
     });
   }
 }
