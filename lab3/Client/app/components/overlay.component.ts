@@ -7,6 +7,8 @@ import {ControlUnit} from "../model/controlUnit";
 import {ControlType} from "../model/controlType";
 import {Http,Headers} from '@angular/http';
 
+declare var $: any;
+
 @Component({
   moduleId: module.id,
   selector: 'my-overlay',
@@ -62,7 +64,7 @@ export class OverlayComponent implements OnInit {
         type: "",
         values: [""]
       }]
-    }
+    };
 
     if(form.value['elementtype-input']=='Ein/Ausschalter'){
       newDevice.control_units[0].type = 'boolean';
@@ -74,7 +76,7 @@ export class OverlayComponent implements OnInit {
       newDevice.control_units[0].type = 'continuous';
       //maximum-value, maximum-value
     }
-    
+
     this.http.post('http://localhost:8081/addDevice',newDevice,{headers: authHeader}).toPromise().then(res => console.log(res));
     form.reset();
   }

@@ -23,18 +23,19 @@ export class DeviceDetailsComponent implements OnInit {
     this.route.params
       .switchMap((params: Params) => this.deviceService.getDevice(params['id']))
       .subscribe(device => this.device = device);
+    console.log("details component " + this.device);
   }
 
   isEnum(controlUnit: ControlUnit): boolean {
-    return controlUnit.type === ControlType.enum;
+    return controlUnit.type == ControlType.enum;
   }
 
   isContinuous(controlUnit: ControlUnit): boolean{
-    return controlUnit.type === ControlType.continuous;
+    return controlUnit.type == ControlType.continuous;
   }
 
   isBoolean(controlUnit: ControlUnit): boolean{
-    return controlUnit.type === ControlType.boolean;
+    return controlUnit.type == ControlType.boolean;
   }
 
 }

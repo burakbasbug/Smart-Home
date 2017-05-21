@@ -38,6 +38,7 @@ export class DeviceService {
             for (let i = 0; i < devices.length; i++) {
                 devices[i] = this.parserService.parseDevice(devices[i]);
             }
+            console.log(devices);
             return devices;
         });
     }

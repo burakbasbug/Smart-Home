@@ -23,15 +23,16 @@ var DeviceDetailsComponent = (function () {
         this.route.params
             .switchMap(function (params) { return _this.deviceService.getDevice(params['id']); })
             .subscribe(function (device) { return _this.device = device; });
+        console.log("details component " + this.device);
     };
     DeviceDetailsComponent.prototype.isEnum = function (controlUnit) {
-        return controlUnit.type === controlType_1.ControlType.enum;
+        return controlUnit.type == controlType_1.ControlType.enum;
     };
     DeviceDetailsComponent.prototype.isContinuous = function (controlUnit) {
-        return controlUnit.type === controlType_1.ControlType.continuous;
+        return controlUnit.type == controlType_1.ControlType.continuous;
     };
     DeviceDetailsComponent.prototype.isBoolean = function (controlUnit) {
-        return controlUnit.type === controlType_1.ControlType.boolean;
+        return controlUnit.type == controlType_1.ControlType.boolean;
     };
     DeviceDetailsComponent = __decorate([
         core_1.Component({
