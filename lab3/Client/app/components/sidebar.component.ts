@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit{
   constructor(private http:Http){}
 
   ngOnInit(): void {
-    //TODO Lesen Sie über die REST-Schnittstelle den Status des Servers aus und speichern Sie diesen in obigen Variablen
+    //TO_DO Lesen Sie über die REST-Schnittstelle den Status des Servers aus und speichern Sie diesen in obigen Variablen
     let authHeader = new Headers();
     authHeader.append('authorization', `Bearer ${localStorage.getItem('token')}`);
     this.http.get('http://localhost:8081/getServerStatus',{ headers:authHeader }).subscribe( (response) => {

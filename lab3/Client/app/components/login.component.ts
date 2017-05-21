@@ -29,24 +29,3 @@ export class LoginComponent {
         })
     }
 }
-
-/*
-
-
-
-this.http.post('http://localhost:8081/login', form.value).forEach((r) => {
-
-            try {
-                let token = r.headers.getAll("token");
-                console.log(token);
-                //console.log("LOGGED IN! Token: " + token);
-                //localStorage.setItem("token", token);
-                this.router.navigate(['/overview']);
-            } catch (e) {
-                console.log("Unexpected header");
-            }
-
-        });
-
-
-*/
