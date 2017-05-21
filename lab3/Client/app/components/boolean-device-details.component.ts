@@ -33,6 +33,7 @@ export class BooleanDeviceDetailsComponent implements OnInit {
     onSubmit(): void {
         //TODO Lesen Sie die eingebenen Daten aus und verarbeiten Sie diese über die REST-Schnittstelle
 
+
         this.doughnutChartData[this.new_value ? 1 : 0]++;
         this.doughnutChartData = Object.assign({}, this.doughnutChartData);
 
