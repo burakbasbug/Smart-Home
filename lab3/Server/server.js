@@ -172,15 +172,12 @@ app.post("/logout", function (req, res) {
     }
 });
 
-app.ws('/', function (ws, req) {
-    ws.on('message', function (msg) {
-        console.log(msg);
-    });
-    ws.onopen(function () {
-        console.log("new connection to socket");
+app.ws('/login', function(ws, req) {
+    ws.on('open', function(msg) {
+        console.log('connected');
         connectedClients.push(ws);
     });
-    ws.onclose(function () {
+    ws.on('close',function () {
         console.log("disonnect socket");
         for (var i = 0; i < connectedClients.length; i++) {
             // # Remove dissconnected sockets
