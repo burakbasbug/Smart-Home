@@ -26,10 +26,12 @@ var DeviceService = (function () {
          * Das Service ist dabei bereits vollständig implementiert und kann wie unten demonstriert eingesetzt werden.
          */
         var ds = [];
-        var headers = new Headers();
-        headers.append("authorization", "Bearer " + localStorage.getItem("token"));
-        this.http.get("http://localhost:8081/deviceList", headers).forEach(function (resp) {
+        var headers = new http_1.Headers();
+        headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+        this.http.get("http://localhost:8081/deviceList", { headers: headers }).forEach(function (resp) {
+            console.log(resp);
             var a = resp.json();
+            console.log("BIR RESONS: " + a);
             for (var i = 0; i < a.length; i++) {
                 ds[i] = _this.parserService.parseDevice(a[i]);
                 console.log(ds[i]);

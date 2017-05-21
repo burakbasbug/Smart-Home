@@ -128,8 +128,7 @@ app.post("/login", function (req, res) {
         console.log("login successful");
         var token = jwt.sign({"username": user, "password": pwd, "time": new Date()}, privateKey);
         connectedClientsJWT.push(token);
-        res.setHeader("token", token);
-        res.status(200).send();
+        res.status(200).json(token);
     } else {
         console.log("login failed: " + user + ", " + pwd);
         failed_logins++;
@@ -202,6 +201,7 @@ function verifyJWT(req) {
             console.log("jwt invalid");
         }
     }else{
+        console.log("Bad authorization header");
         return false;
     }
 }

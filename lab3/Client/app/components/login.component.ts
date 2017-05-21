@@ -18,10 +18,19 @@ export class LoginComponent {
     constructor(private router: Router, private http: Http) { }
 
     onSubmit(form: NgForm): void {
-        //TODO Überprüfen Sie die Login-Daten über die REST-Schnittstelle und leiten Sie den Benutzer bei Erfolg auf die Overview-Seite weiter
-        let head;
+        //TODO-Fertig Überprüfen Sie die Login-Daten über die REST-Schnittstelle und leiten Sie den Benutzer bei Erfolg auf die Overview-Seite weiter
+
         this.http.post('http://localhost:8081/login', form.value)
-        .subscribe((response) => console.log(response.headers.getAll('token')));
+        .subscribe( (response) => {
+            try{
+                let resp = response.json();
+                console.log("LOGGED IN!");
+                localStorage.setItem("token", resp);
+                this.router.navigate(['/overview']);
+            }catch(e){
+                console.log("Unable to route : " + e);
+            }
+        }, (err) => console.log("Unexpected error: " + err));
         
     }
 }
