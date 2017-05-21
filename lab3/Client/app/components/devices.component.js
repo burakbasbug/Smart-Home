@@ -100,6 +100,7 @@ var DevicesComponent = (function () {
         edit.hide();
         var remove = device_outer.find(".device-remove");
         remove.attr("src", "../images/ok.png");
+        //device_outer.find(".device-displayname").html("<input type='text' name='edit-name' id='edit-name-input' [(ngModel)]=”devi” class='form-input' />");
     };
     /**
      * Speichert die Änderungen welche am Gerät durchgeführt wurden
@@ -108,13 +109,20 @@ var DevicesComponent = (function () {
     DevicesComponent.prototype.finishEdit = function (device) {
         this.showLabel(device);
         //TODO Lesen Sie den geänderten Anzeigenamen aus und speichern Sie diesen über die REST-Schnittstelle
+        var authHeader = new http_1.Headers();
+        authHeader.append('authorization', "Bearer " + localStorage.getItem('token'));
+        var params = {
+            name: device.display_name
+        };
+        this.http.post('http://localhost:8081/updateDeviceName', params, { headers: authHeader }).toPromise().then(function (res) { return console.log(res.json()); });
     };
     /**
      * Entfernt das angegebene Gerät
      * @param device
      */
     DevicesComponent.prototype.removeDevice = function (device) {
-        //TODO Löschen Sie das angegebene Geräte über die REST-Schnittstelle
+        //T_
+        // ODO Löschen Sie das angegebene Geräte über die REST-Schnittstelle
         this.devices.splice(this.devices.indexOf(device), 1);
         var authHeader = new http_1.Headers();
         authHeader.append('authorization', "Bearer " + localStorage.getItem('token'));

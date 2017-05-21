@@ -22,8 +22,9 @@ app.use(cors());
 var valid_username;
 var valid_password;
 
-var server_start_date;
-var server_start_time;
+//var server_start_date;
+//var server_start_time;
+var server_start;
 var failed_logins = 0;
 
 var devices; //Array von Devices als JSON-Objekte
@@ -97,9 +98,13 @@ app.post("/deleteDevice", function (req, res) {
 
 app.post("/updateDeviceName", function (req, res) {
     if (verifyJWT(req)) {
-        var device = devices.filter(function (el) {
-            return el.id === req.body.id;
-        });
+        var device;
+        for (var i = 0; i < devices.length; i++) {
+            if (devices[i].id === req.body.id) {
+                device = devices[i];
+            }
+        }
+        console.log("update device name from " + device.display_name + " to " + req.body.name);
         device.display_name = req.body.name;
         res.status(200).json("successful");
         refreshConnected();
@@ -117,12 +122,18 @@ app.post("/updateCurrent", function (req, res) {
      * Diese Funktion verändert gleichzeitig auch den aktuellen Wert des Gerätes, Sie müssen diese daher nur mit den korrekten Werten aufrufen.
      */
     if (verifyJWT(req)) {
-        var device = devices.filter(function (el) {
-            return el.id === req.body.id;
-        });
-        var control_unit = device.control_units.filter(function (el) {
-            return el.name === req.body.control_unit;
-        });
+        var device;
+        for (var i = 0; i < devices.length; i++) {
+            if (devices[i].id === req.body.id) {
+                device = devices[i];
+            }
+        }
+        var control_unit;
+        for(var i = 0; i < device.control_units.length; i++) {
+            if(control_units[i] === req.body.control_unit) {
+                control_unit = control_units[i];
+            }
+        }
         control_unit.current = Number(req.body.new_value);
         res.status(200);
         simulation.updatedDeviceValue(device, control_unit, Number(req.body.new_value));
@@ -213,8 +224,8 @@ app.get("/getServerStatus", function (req, res) {
         res.status(200);
         res.json({
             "username": valid_username,
-            "startDate": server_start_date,
-            "startTime": server_start_time,
+            "server_start": server_start,
+            //"startTime": server_start_time,
             "attempts": failed_logins
         });
     } else {
@@ -301,8 +312,9 @@ var server = app.listen(8081, function () {
     readDevices();
 
     var date = new Date();
-    server_start_date = date.getDate() + "." + (date.getMonth() + 1) + "." + (date.getFullYear());
-    server_start_time = date.getHours() + ":" + date.getMinutes();
+    //server_start_date = date.getDate() + "." + (date.getMonth() + 1) + "." + (date.getFullYear());
+    //server_start_time = date.getHours() + ":" + date.getMinutes();
+    server_start = new Date();
 
     var host = server.address().address;
     var port = server.address().port;

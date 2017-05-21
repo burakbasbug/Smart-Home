@@ -116,6 +116,9 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
         var remove = device_outer.find(".device-remove");
         remove.attr("src", "../images/ok.png");
 
+        //device_outer.find(".device-displayname").html("<input type='text' name='edit-name' id='edit-name-input' [(ngModel)]=”devi” class='form-input' />");
+
+
     }
 
     /**
@@ -125,6 +128,14 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
     finishEdit(device: Device): void {
         this.showLabel(device);
         //TODO Lesen Sie den geänderten Anzeigenamen aus und speichern Sie diesen über die REST-Schnittstelle
+
+        let authHeader = new Headers();
+        authHeader.append('authorization', `Bearer ${localStorage.getItem('token')}`);
+
+        let params = {
+            name: device.display_name
+        };
+        this.http.post('http://localhost:8081/updateDeviceName', params,{ headers:authHeader }).toPromise().then(res => console.log(res.json()));
     }
 
     /**
@@ -132,7 +143,8 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
      * @param device
      */
     removeDevice(device: Device): void {
-        //TODO Löschen Sie das angegebene Geräte über die REST-Schnittstelle
+        //T_
+        // ODO Löschen Sie das angegebene Geräte über die REST-Schnittstelle
         this.devices.splice(this.devices.indexOf(device),1);
 
         let authHeader = new Headers();
@@ -155,12 +167,12 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
             this.edit[index].value = false;
         }
 
-        var device_outer = $(".device-outer[data-device-id=" + device.id + "]");
+        let device_outer = $(".device-outer[data-device-id=" + device.id + "]");
 
-        var edit = device_outer.find(".device-edit");
+        let edit = device_outer.find(".device-edit");
         edit.show();
 
-        var remove = device_outer.find(".device-remove");
+        let remove = device_outer.find(".device-remove");
         remove.attr("src", "../images/remove.png");
     }
 
