@@ -64,13 +64,13 @@ export class OverlayComponent implements OnInit {
       }]
     }
 
-    if(form.value['elementtype-input']==='Ein/Ausschalter'){
+    if(form.value['elementtype-input']=='Ein/Ausschalter'){
       newDevice.control_units[0].type = 'boolean';
       newDevice.control_units[0].values = [''];
-    }else if(form.value['elementtype-input']==='Diskrete Werte'){
+    }else if(form.value['elementtype-input']=='Diskrete Werte'){
       newDevice.control_units[0].type = 'enum';
       newDevice.control_units[0].values = form.value['discrete-values'];
-    }else if(form.value['elementtype-input']==='Kontinuierlicher Wert'){
+    }else if(form.value['elementtype-input']=='Kontinuierlicher Wert'){
       newDevice.control_units[0].type = 'continuous';
       //maximum-value, maximum-value
     }
