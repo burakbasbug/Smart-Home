@@ -22,7 +22,7 @@ export class AuthenticationService {
                 {
                     console.log("Message is received...",evt.data);
                 };
-
+                ws.close();
                 return true;
             } else {
                 //failed login

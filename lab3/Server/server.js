@@ -31,8 +31,6 @@ var devices; //Array von Devices als JSON-Objekte
 var connectedClientsJWT = [];
 var privateKey = 'OURPRIVATEKEY';
 
-var connectedClients = [];
-
 //T_ODO Implementieren Sie hier Ihre REST-Schnittstelle
 /* Ermöglichen Sie wie in der Angabe beschrieben folgende Funktionen:
  *  Abrufen aller Geräte als Liste
@@ -49,6 +47,28 @@ var connectedClients = [];
  *      Vergessen Sie auch nicht, dass jeder Client mit aktiver Verbindung über alle Aktionen via Websocket zu informieren ist.
  *      Bei der Anlage neuer Geräte wird eine neue ID benötigt. Verwenden Sie dafür eine uuid (https://www.npmjs.com/package/uuid, Bibliothek ist bereits eingebunden).
  */
+
+app.ws('/', function(ws, req) {
+    ws.on('open', function(msg) {
+        console.log('connected');
+
+        //connectedClients.push(ws);
+    });
+    ws.on('close',function () {
+        console.log("disonnect socket");
+
+        //  for (var i = 0; i < connectedClients.length; i++) {
+        // # Remove dissconnected sockets
+        //   if (connectedClients[i] == ws) {
+        //  console.log("successfully removed socket");
+        //   connectedClients.splice(i);
+        //      break;
+        //  }
+        //}
+    });
+    console.log('socket init');
+});
+
 app.get("/deviceList", function (req, res) {
     if (verifyJWT(req)) {
         res.status(200).json(devices);
@@ -161,25 +181,6 @@ app.post("/logout", function (req, res) {
     }
 });
 
-app.ws('/login', function(ws, req) {
-    ws.on('open', function(msg) {
-        console.log('connected');
-        connectedClients.push(ws);
-    });
-    ws.on('close',function () {
-        console.log("disonnect socket");
-        for (var i = 0; i < connectedClients.length; i++) {
-            // # Remove dissconnected sockets
-            if (connectedClients[i] == ws) {
-                console.log("successfully removed socket");
-                connectedClients.splice(i);
-                break;
-            }
-        }
-    });
-    console.log('socket', req.testing);
-});
-
 app.post("/changePassword", function (req, res) {
     if (verifyJWT(req)) {
         var oldPwd = req.body.oldPassword;
@@ -277,9 +278,10 @@ function readDevices() {
 function refreshConnected() {
     "use strict";
     //TODO Übermitteln Sie jedem verbundenen Client die aktuellen Gerätedaten über das Websocket
-
-    for (var i = 0; i < connectedClients.length; i++) {
-        connectedClients[i].send(devices);
+    var cl = expressWs.getWss().clients;
+    for (var i = 0; i < cl.length; i++) {
+        console.log("senden an:"+i);
+        cl[i].send(devices);
     }
     /*
      * Jedem Client mit aktiver Verbindung zum Websocket sollen die aktuellen Daten der Geräte übermittelt werden.
