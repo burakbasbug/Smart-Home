@@ -58,12 +58,21 @@ app.get("/deviceList", function(req, res) {
 app.post("/addDevice", function (req, res) {
     if(verifyJWT(req)) {
 
+        var newDevice = req.body.newDevice;
+
         var id = uuid();
         var device = {
-            "id": id
-            /* TODO */
+            "id": id,
+            "description": newDevice.description,
+            "display_name": newDevice.display_name,
+            "type": newDevice.type,
+            "type_name": newDevice.type_name,
+            "image": newDevice.image,
+            "image_alt": newDevice.image_alt,
+            "control_units": newDevice.control_units
         };
         devices.push(device);
+        res.status(200).send("successful");
         refreshConnected();
     } else {
         res.status(200).send("invalid_jwt");
