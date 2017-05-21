@@ -31,6 +31,8 @@ var devices; //Array von Devices als JSON-Objekte
 var connectedClientsJWT = [];
 var privateKey = 'OURPRIVATEKEY';
 
+var connectedClients = [];
+
 //T_ODO Implementieren Sie hier Ihre REST-Schnittstelle
 /* Ermöglichen Sie wie in der Angabe beschrieben folgende Funktionen:
  *  Abrufen aller Geräte als Liste
@@ -47,8 +49,8 @@ var privateKey = 'OURPRIVATEKEY';
  *      Vergessen Sie auch nicht, dass jeder Client mit aktiver Verbindung über alle Aktionen via Websocket zu informieren ist.
  *      Bei der Anlage neuer Geräte wird eine neue ID benötigt. Verwenden Sie dafür eine uuid (https://www.npmjs.com/package/uuid, Bibliothek ist bereits eingebunden).
  */
-app.get("/deviceList", function(req, res) {
-    if(verifyJWT(req)) {
+app.get("/deviceList", function (req, res) {
+    if (verifyJWT(req)) {
         res.status(200).json(devices);
     } else {
         res.status(200).json("invalid_jwt");
@@ -56,7 +58,7 @@ app.get("/deviceList", function(req, res) {
 });
 
 app.post("/addDevice", function (req, res) {
-    if(verifyJWT(req)) {
+    if (verifyJWT(req)) {
         var newDevice = req.body;
         var id = uuid();
         var device = {
@@ -76,15 +78,15 @@ app.post("/addDevice", function (req, res) {
 });
 
 app.post("/deleteDevice", function (req, res) {
-    if(verifyJWT(req)) {
+    if (verifyJWT(req)) {
         console.log("delete id: " + req.body.id);
         var device;
-        for(var i = 0; i < devices.length; i++) {
-            if(devices[i].id === req.body.id) {
+        for (var i = 0; i < devices.length; i++) {
+            if (devices[i].id === req.body.id) {
                 device = devices[i];
             }
         }
-        console.log("delete device: "+ device.display_name);
+        console.log("delete device: " + device.display_name);
         devices.splice(devices.indexOf(device), 1);
         res.status(200).json("successful");
         refreshConnected();
@@ -94,7 +96,7 @@ app.post("/deleteDevice", function (req, res) {
 });
 
 app.post("/updateDeviceName", function (req, res) {
-    if(verifyJWT(req)) {
+    if (verifyJWT(req)) {
         var device = devices.filter(function (el) {
             return el.id === req.body.id;
         });
@@ -114,7 +116,7 @@ app.post("/updateCurrent", function (req, res) {
      *      simulation.updatedDeviceValue(device, control_unit, Number(new_value));
      * Diese Funktion verändert gleichzeitig auch den aktuellen Wert des Gerätes, Sie müssen diese daher nur mit den korrekten Werten aufrufen.
      */
-    if(verifyJWT(req)) {
+    if (verifyJWT(req)) {
         var device = devices.filter(function (el) {
             return el.id === req.body.id;
         });
@@ -149,7 +151,7 @@ app.post("/login", function (req, res) {
 
 app.post("/logout", function (req, res) {
     "use strict";
-    if(verifyJWT(req)) {
+    if (verifyJWT(req)) {
         delete connectedClientsJWT[req.headers.authorization.split(" ")[1]];
         res.status(200).json("successful");
         console.log("logout successful");
@@ -159,20 +161,42 @@ app.post("/logout", function (req, res) {
     }
 });
 
+app.ws('/', function (ws, req) {
+    ws.on('message', function (msg) {
+        console.log(msg);
+    });
+    ws.onopen(function () {
+        console.log("new connection to socket");
+        connectedClients.push(ws);
+    });
+    ws.onclose(function () {
+        console.log("disonnect socket");
+        for (var i = 0; i < connectedClients.length; i++) {
+            // # Remove dissconnected sockets
+            if (connectedClients[i] == ws) {
+                console.log("successfully removed socket");
+                connectedClients.splice(i);
+                break;
+            }
+        }
+    });
+    console.log('socket', req.testing);
+});
+
 app.post("/changePassword", function (req, res) {
-    if(verifyJWT(req)) {
+    if (verifyJWT(req)) {
         var oldPwd = req.body.oldPassword;
         var newPwd = req.body.newPassword;
         var newPwdRep = req.body.repeatPassword;
-        if(oldPwd !== valid_password) {
+        if (oldPwd !== valid_password) {
             res.status(200).json("invalid, old password incorrect");
-        } else if(newPwd !== newPwdRep) {
+        } else if (newPwd !== newPwdRep) {
             res.status(200).json("invalid, new passwords dont match");
         } else {
             valid_password = newPwd;
             var fileContent = "username: " + valid_username + "\npassword: " + valid_password;
             fs.writeFile("resources/login.config", fileContent, {encoding: 'utf-8'}, function (err) {
-                if(!err) {
+                if (!err) {
                     res.status(200).json("successful");
                 } else {
                     res.status(500).json("error writing password to file: " + err);
@@ -185,7 +209,7 @@ app.post("/changePassword", function (req, res) {
 });
 
 app.get("/getServerStatus", function (req, res) {
-    if(verifyJWT(req)) {
+    if (verifyJWT(req)) {
         res.status(200);
         res.json({
             "username": valid_username,
@@ -199,19 +223,19 @@ app.get("/getServerStatus", function (req, res) {
 });
 
 function verifyJWT(req) {
-    if(req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer"){
+    if (req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer") {
         var token = req.headers.authorization;
         token = token.split(" ")[1];
         try {
             //var decoded = jwt.verify(token, privateKey);
             //decoded.username === valid_username && decoded.password === valid_password &&
-            if(connectedClientsJWT.indexOf(token) !== -1) {
+            if (connectedClientsJWT.indexOf(token) !== -1) {
                 return true;
             }
-        } catch(err) {
+        } catch (err) {
             console.log("jwt invalid");
         }
-    }else{
+    } else {
         console.log("Bad authorization header");
         return false;
     }
@@ -220,7 +244,7 @@ function verifyJWT(req) {
 function readUser() {
     "use strict";
     //T_ODO-fertig Lesen Sie die Benutzerdaten aus dem login.config File ein.
-    fs.readFile("resources/login.config", {encoding: 'utf-8'}, function(err, data){
+    fs.readFile("resources/login.config", {encoding: 'utf-8'}, function (err, data) {
         if (!err) {
             valid_username = data.split('\n')[0].split(': ')[1];
             valid_username = valid_username.split('\r')[0];
@@ -241,7 +265,7 @@ function readDevices() {
      *      simulation.simulateSmartHome(devices.devices, refreshConnected);
      * Der zweite Parameter ist dabei eine callback-Funktion, welche zum Updaten aller verbundenen Clients dienen soll.
      */
-    fs.readFile("resources/devices.json", {encoding: 'utf-8'}, function(err, data){
+    fs.readFile("resources/devices.json", {encoding: 'utf-8'}, function (err, data) {
         if (!err) {
             devices = JSON.parse(data).devices;
             console.log(devices.length + ' devices read');
@@ -256,6 +280,10 @@ function readDevices() {
 function refreshConnected() {
     "use strict";
     //TODO Übermitteln Sie jedem verbundenen Client die aktuellen Gerätedaten über das Websocket
+
+    for (var i = 0; i < connectedClients.length; i++) {
+        connectedClients[i].send(devices);
+    }
     /*
      * Jedem Client mit aktiver Verbindung zum Websocket sollen die aktuellen Daten der Geräte übermittelt werden.
      * Dabei soll jeder Client die aktuellen Werte aller Steuerungselemente von allen Geräte erhalten.
@@ -263,7 +291,7 @@ function refreshConnected() {
      *
      * Bitte beachten Sie, dass diese Funktion von der Simulation genutzt wird um periodisch die simulierten Daten an alle Clients zu übertragen.
      */
-    //console.log("refreshConnected")
+    console.log("refreshConnected")
 }
 
 
@@ -273,7 +301,7 @@ var server = app.listen(8081, function () {
     readDevices();
 
     var date = new Date();
-    server_start_date = date.getDate() + "." + (date.getMonth()+1) + "." + (date.getFullYear());
+    server_start_date = date.getDate() + "." + (date.getMonth() + 1) + "." + (date.getFullYear());
     server_start_time = date.getHours() + ":" + date.getMinutes();
 
     var host = server.address().address;
