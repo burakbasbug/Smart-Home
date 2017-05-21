@@ -10,9 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var device_service_1 = require("../services/device.service");
+var http_1 = require("@angular/http");
 var DevicesComponent = (function () {
-    function DevicesComponent(deviceService) {
+    function DevicesComponent(deviceService, http) {
         this.deviceService = deviceService;
+        this.http = http;
         this.update = true;
         this.device_num = 0;
     }
@@ -113,6 +115,13 @@ var DevicesComponent = (function () {
      */
     DevicesComponent.prototype.removeDevice = function (device) {
         //TODO Löschen Sie das angegebene Geräte über die REST-Schnittstelle
+        this.devices.splice(this.devices.indexOf(device), 1);
+        var authHeader = new http_1.Headers();
+        authHeader.append('authorization', "Bearer " + localStorage.getItem('token'));
+        var params = {
+            id: device.id
+        };
+        this.http.post('http://localhost:8081/deleteDevice', params, { headers: authHeader }).toPromise().then(function (res) { return console.log(res.json()); });
     };
     /**
      * Setz das Input-Feld wieder auf ein Label zurück und beendet so das Bearbeiten
@@ -135,7 +144,7 @@ var DevicesComponent = (function () {
             selector: 'my-devices',
             templateUrl: '../views/devices.component.html'
         }), 
-        __metadata('design:paramtypes', [device_service_1.DeviceService])
+        __metadata('design:paramtypes', [device_service_1.DeviceService, http_1.Http])
     ], DevicesComponent);
     return DevicesComponent;
 }());

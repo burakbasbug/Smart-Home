@@ -27,7 +27,7 @@ export class DeviceService {
         authHeader.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
         
         this.http.get("http://localhost:8081/deviceList", { headers: authHeader }).subscribe((resp)=>{
-            console.log(resp);
+            //console.log(resp);
             let a = resp.json();
             for(let i=0; i<a.length;i++){
                 ds[i] = this.parserService.parseDevice(a[i]);

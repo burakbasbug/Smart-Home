@@ -79,12 +79,17 @@ app.post("/addDevice", function (req, res) {
     }
 });
 
-app.delete("/deleteDevice", function (req, res) {
+app.post("/deleteDevice", function (req, res) {
     if(verifyJWT(req)) {
-        var device = devices.filter(function (el) {
-            return el.id === req.body.id;
-        });
-        devices.remove(device);
+        console.log("delete id: " + req.body.id);
+        var device;
+        for(var i = 0; i < devices.length; i++) {
+            if(devices[i].id === req.body.id) {
+                device = devices[i];
+            }
+        }
+        console.log("delete device: "+ device.display_name);
+        devices.splice(devices.indexOf(device), 1);
         res.status(200).json("successful");
         refreshConnected();
     } else {

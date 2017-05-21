@@ -29,7 +29,7 @@ var DeviceService = (function () {
         var authHeader = new http_1.Headers();
         authHeader.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
         this.http.get("http://localhost:8081/deviceList", { headers: authHeader }).subscribe(function (resp) {
-            console.log(resp);
+            //console.log(resp);
             var a = resp.json();
             for (var i = 0; i < a.length; i++) {
                 ds[i] = _this.parserService.parseDevice(a[i]);
