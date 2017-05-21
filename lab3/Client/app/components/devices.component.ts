@@ -24,6 +24,7 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
     ngOnInit(): void {
         this.update = true;
         this.listDevices();
+
     }
 
 
@@ -52,6 +53,10 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
                     device.draw_image(device.id, device.image, control_unit.min, control_unit.max, control_unit.current, control_unit.values);
                 }
             }
+        }
+
+        for(let i = 0; i < this.devices.length; i++) {
+            this.edit[i] = {id: this.devices[i].id, value: false};
         }
     }
 
@@ -116,8 +121,6 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
         var remove = device_outer.find(".device-remove");
         remove.attr("src", "../images/ok.png");
 
-        //device_outer.find(".device-displayname").html("<input type='text' name='edit-name' id='edit-name-input' [(ngModel)]=”devi” class='form-input' />");
-
 
     }
 
@@ -133,6 +136,7 @@ export class DevicesComponent implements OnInit, AfterViewChecked {
         authHeader.append('authorization', `Bearer ${localStorage.getItem('token')}`);
 
         let params = {
+            id: device.id,
             name: device.display_name
         };
         this.http.post('http://localhost:8081/updateDeviceName', params,{ headers:authHeader }).toPromise().then(res => console.log(res.json()));

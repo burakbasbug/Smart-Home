@@ -73,6 +73,7 @@ app.ws('/', function(ws, req) {
 app.get("/deviceList", function (req, res) {
     if (verifyJWT(req)) {
         res.status(200).json(devices);
+        console.log("sent device list")
     } else {
         res.status(200).json("invalid_jwt");
     }

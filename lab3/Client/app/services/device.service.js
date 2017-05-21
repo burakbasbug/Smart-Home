@@ -39,6 +39,7 @@ var DeviceService = (function () {
             for (var i = 0; i < devices.length; i++) {
                 devices[i] = _this.parserService.parseDevice(devices[i]);
             }
+            console.log(devices);
             return devices;
         });
     };

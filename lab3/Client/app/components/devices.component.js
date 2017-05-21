@@ -46,6 +46,9 @@ var DevicesComponent = (function () {
                 }
             }
         }
+        for (var i = 0; i < this.devices.length; i++) {
+            this.edit[i] = { id: this.devices[i].id, value: false };
+        }
     };
     /**
      * Liest alle Geräte aus und initialisiert ein Flag zum Editierungs-Status dieses Gerätes
@@ -100,7 +103,6 @@ var DevicesComponent = (function () {
         edit.hide();
         var remove = device_outer.find(".device-remove");
         remove.attr("src", "../images/ok.png");
-        //device_outer.find(".device-displayname").html("<input type='text' name='edit-name' id='edit-name-input' [(ngModel)]=”devi” class='form-input' />");
     };
     /**
      * Speichert die Änderungen welche am Gerät durchgeführt wurden
@@ -112,6 +114,7 @@ var DevicesComponent = (function () {
         var authHeader = new http_1.Headers();
         authHeader.append('authorization', "Bearer " + localStorage.getItem('token'));
         var params = {
+            id: device.id,
             name: device.display_name
         };
         this.http.post('http://localhost:8081/updateDeviceName', params, { headers: authHeader }).toPromise().then(function (res) { return console.log(res.json()); });
