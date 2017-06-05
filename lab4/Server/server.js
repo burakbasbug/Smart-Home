@@ -590,8 +590,8 @@ function getTwitterPublicationString(groupNum, uuid, date) {
 //  - Der Websocket soll auch weiterhin über http abgewickelt werden
 //  - zu https mit node.js siehe https://nodejs.org/api/https.html
 var options = {
-  key: fs.readFileSync('./resources/root.key'),
-  cert: fs.readFileSync('./resources/root.pem')
+  key: fs.readFileSync('./cert/root.key'),
+  cert: fs.readFileSync('./cert/root.pem')
 };
 
 var sserver = https.createServer(options, app).listen(8082,()=>{
