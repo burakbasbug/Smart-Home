@@ -5,6 +5,7 @@ import {DeviceService} from "../services/device.service";
 import {Device} from "../model/device";
 import {ControlUnit} from "../model/controlUnit";
 import {ControlType} from "../model/controlType";
+import {DeviceType} from "../model/deviceType";
 
 @Component({
   selector: 'my-overlay',
@@ -101,7 +102,16 @@ export class OverlayComponent implements OnInit {
         device.description = "Genauere Informationen zu dieser Webcam";
         break;
       default:
-        //TODO Lesen Sie die SPARQL - Informationen aus dem SessionStorage und speichern Sie die entsprechenden Informationen zum Gerät
+        //T_ODO Lesen Sie die SPARQL - Informationen aus dem SessionStorage und speichern Sie die entsprechenden Informationen zum Gerät
+        let deviceTypes = JSON.parse(sessionStorage.getItem("deviceTypes"));
+        for(let i = 0; i < deviceTypes.length; i++) {
+          if(deviceTypes[i].label == this.selected_type) {
+            device.image = deviceTypes[i].url;
+            device.image_alt = deviceTypes[i].label;
+            device.description = "Genauere Informationen zu dieser " + deviceTypes[i].label;
+            break;
+          }
+        }
         break;
     }
 
@@ -162,7 +172,13 @@ export class OverlayComponent implements OnInit {
 
 
   getSPARQLTypes(): void {
-    //TODO Lesen Sie mittels SPARQL die gewünschten Daten (wie in der Angabe beschrieben) aus und speichern Sie diese im SessionStorage
+    //T_ODO Lesen Sie mittels SPARQL die gewünschten Daten (wie in der Angabe beschrieben) aus und speichern Sie diese im SessionStorage
+    this.deviceService.getDeviceTypes().then(deviceTypes => {
+      sessionStorage.setItem("deviceTypes", JSON.stringify(deviceTypes));
+      for(let i = 0;  i < deviceTypes.length; i++) {
+        this.device_types.push(deviceTypes[i].label);
+      }
+    });
   }
 
 
