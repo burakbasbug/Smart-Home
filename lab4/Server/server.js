@@ -93,7 +93,9 @@ app.post("/createDevice", function (req, res) {
                // console.log(client);
                 client.post('statuses/update', {status: getTwitterPublicationString(13,id,new Date())}, function(error, tweet, response) {
                     if (!error) {
-                        console.log(tweet);
+                        console.log("Tweet gesendet: " + tweet.text);
+                    } else {
+                        console.log("Fehler beim Senden des Tweets: " + error.message);
                     }
                 });
 
