@@ -84,7 +84,7 @@ app.post("/createDevice", function (req, res) {
                  Access Token: 1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002
                  Access Token Secret: RMPWOePlus3xtURWRVnv1TgrjTyK7Zk33evp4KKyA
                  */
-                var client = new Twitter({
+                /*var client = new Twitter({
                     consumer_key: GZ6tiy1XyB9W0P4xEJudQ,
                     consumer_secret: gaJDlW0vf7en46JwHAOkZsTHvtAiZ3QUd2mD1x26J9w,
                     access_token_key: 1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002,
@@ -94,7 +94,7 @@ app.post("/createDevice", function (req, res) {
                     if (!error) {
                         console.log(tweet);
                     }
-                });
+                });*/
 
             }
         });
@@ -387,7 +387,7 @@ app.post('/updatePW', function (req, res) {
                     res.json({status: 401, errorNum: 0, message: "Old password wrong"});
                     return;
                 } else if (new_password !== repeat_password) {
-                    res.json({status: 401, errorNum: 1, message: "Passwords do not match"})
+                    res.json({status: 401, errorNum: 1, message: "Passwords do not match"});
                     return;
                 }
                 user.password = new_password;
@@ -577,6 +577,7 @@ function sendCreate(device) {
  * @returns {string}
  */
 function getTwitterPublicationString(groupNum, uuid, date) {
+    "use strict";
     return date.toLocaleString() + " - Gruppe " + groupNum + " hat gerade ein Gerät mit folgender UUID hinzugefügt: " + uuid;
 }
 

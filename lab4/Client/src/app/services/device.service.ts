@@ -10,6 +10,7 @@ import 'rxjs/add/operator/toPromise';
 import {DatePipe} from '@angular/common';
 import {ControlUnit} from "../model/controlUnit";
 import {Subject} from 'rxjs/Subject';
+import {DeviceType} from "../model/deviceType";
 
 
 @Injectable()
@@ -270,5 +271,24 @@ export class DeviceService {
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
+  }
+
+  getDeviceTypes(): Promise<DeviceType[]> {
+
+    let dbpediaUrl = "http://dbpedia.org/sparql?query="
+    let sparqlQuery = "PREFIX dbc: <http://dbpedia.org/resource/Category:>PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>PREFIX dbo: <http://dbpedia.org/ontology/>PREFIX foaf: <http://xmlns.com/foaf/0.1/>PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>PREFIX owl: <http://www.w3.org/2002/07/owl#>select distinct ?label, ?url where {  ?device <http://purl.org/dc/terms/subject> dbc:Home_automation.  ?device rdfs:label ?label.  ?device foaf:depiction ?url.  ?device rdf:type ?d_type.  ?producer dbo:product ?device.   FILTER (lang(?label) = 'de')  FILTER (?d_type = owl:Thing)  FILTER (?producer != '')}";
+    let target = dbpediaUrl + encodeURIComponent(sparqlQuery);
+
+
+    return this.http.get(target)
+        .toPromise()
+        .then(response => {
+          let array = response.json().results.bindings;
+          for(let i = 0; i < array.length; i++) {
+            array[i] = {"label": array[i].label.value, "url": array[i].url.value};
+          }
+          return array;
+        })
+        .catch(this.handleError);
   }
 }
