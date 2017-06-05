@@ -84,17 +84,18 @@ app.post("/createDevice", function (req, res) {
                  Access Token: 1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002
                  Access Token Secret: RMPWOePlus3xtURWRVnv1TgrjTyK7Zk33evp4KKyA
                  */
-                /*var client = new Twitter({
-                    consumer_key: GZ6tiy1XyB9W0P4xEJudQ,
-                    consumer_secret: gaJDlW0vf7en46JwHAOkZsTHvtAiZ3QUd2mD1x26J9w,
-                    access_token_key: 1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002,
-                    access_token_secret:  RMPWOePlus3xtURWRVnv1TgrjTyK7Zk33evp4KKyA
+                var client = new twitter({
+                    consumer_key: "GZ6tiy1XyB9W0P4xEJudQ",
+                    consumer_secret: "gaJDlW0vf7en46JwHAOkZsTHvtAiZ3QUd2mD1x26J9w",
+                    access_token_key: "1366513208-MutXEbBMAVOwrbFmZtj1r4Ih2vcoHGHE2207002",
+                    access_token_secret:  "RMPWOePlus3xtURWRVnv1TgrjTyK7Zk33evp4KKyA"
                 });
+               // console.log(client);
                 client.post('statuses/update', {status: getTwitterPublicationString(13,id,new Date())}, function(error, tweet, response) {
                     if (!error) {
                         console.log(tweet);
                     }
-                });*/
+                });
 
             }
         });
